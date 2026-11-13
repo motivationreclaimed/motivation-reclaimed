@@ -290,7 +290,7 @@ def render_frame(spec, fi):
     panels = spec.PANELS
     n = len(panels)
     gap = 20
-    ph = getattr(spec, "PANEL_H", {2: 560, 3: 420, 4: 340}[n])
+    ph = getattr(spec, "PANEL_H", {1: 1250, 2: 600, 3: 420, 4: 340}[n])
     total = n * ph + (n - 1) * gap
     top = (H - total) // 2 - 30
     ground = int(ph * 0.885)
@@ -298,6 +298,7 @@ def render_frame(spec, fi):
     hero = getattr(spec, "HERO", n - 1)
     dim = ease_io(ramp(t, payoff + 0.3, payoff + 0.9)) if payoff is not None else 0
     F_LABEL = ImageFont.truetype(FONT_B, 44 if n <= 3 else 38)
+    fig_scale = getattr(spec, "FIG_SCALE", {1: 1.6, 2: 1.0, 3: 0.8, 4: 0.68}[n])
 
     frame = np.zeros((H, W, 3), np.float32)
     shake_global = 0.0
@@ -310,6 +311,7 @@ def render_frame(spec, fi):
         if i == hero: accent = GOLD if P.get("color") is None else accent
         pimg = Image.new("RGB", (W, ph)); glow = Image.new("RGB", (W // 2, ph // 2))
         ctx = Ctx(ImageDraw.Draw(pimg), ImageDraw.Draw(glow), W, ph, ground, t, accent)
+        ctx.scale = fig_scale
         ctx.is_hero = (i == hero)
         ctx.payoff_glow = ease_out(ramp(t, payoff, payoff + 0.5)) if (payoff is not None and i == hero) else 0.0
         P["scene"](ctx, t)
@@ -321,7 +323,7 @@ def render_frame(spec, fi):
             lum = pa.mean(axis=2, keepdims=True); pa = lerp(pa, lum * 0.32, dim)
         lab = Image.fromarray(np.clip(pa, 0, 255).astype(np.uint8)); dl = ImageDraw.Draw(lab)
         lc = accent if not (i != hero and dim > 0) else tuple(int(lerp(c, 80, dim)) for c in accent)
-        tracked(dl, 48, 26, P["label"], F_LABEL, lc, tr=7)
+        if P.get("label"): tracked(dl, 48, 26, P["label"], F_LABEL, lc, tr=7)
         if P.get("sub") and t >= P.get("sub_t", 0):
             sc = (175, 175, 180) if i != hero else (235, 220, 190)
             if i != hero and dim > 0: sc = tuple(int(lerp(c, 70, dim)) for c in sc)

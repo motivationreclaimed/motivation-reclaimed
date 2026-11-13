@@ -11,8 +11,20 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Watermark "MOTIVATION RECLAIMED" is automatic. Length 8–10 s.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
+## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
+Rotate formats. Never use the same format twice in a row, and use the classic "3 labelled panels" in at most 1 of every 4 videos.
+Formats (record the format in posted.md):
+- **SPLIT 2** — two panels, e.g. YOU vs YOU, BEFORE / AFTER, 3 HOURS / 3 MINUTES (`PANELS` with 2 entries).
+- **STORY** — one full-screen scene (1 panel, figure auto-scaled 1.6×), a short wordless story: fall → get up, crack fills with gold, walking against a crowd. Labels optional (`label: ""`).
+- **PROGRESSION 4** — four panels as a timeline: DAY 1 / DAY 30 / DAY 100 / DAY 365.
+- **TRIO 3** — the classic three-way comparison (limit as above).
+- **COUNTER** — one scene with a changing on-screen number/day counter or progress bar (`ctx.text`).
+- **REVERSE** — starts at the gold payoff, then shows how he got there.
+Also vary: props, settings (hill, stairs, gym, bed, rain, road, crowd, door), pacing, which panel is the hero, and sound events.
+Hero still carries the gold crack and the PAYOFF ending still closes every video — that is the signature that stays constant.
+
 ## Making a video
-1. Pick the next unused concept from `ideas.md` (or invent a new one in the same spirit). Check `posted.md` first.
+1. Pick the next unused concept from `ideas.md` whose format differs from the previous post (or invent a new one in the same spirit). Check `posted.md` first.
 2. Write `specs/NNN_slug.py` (copy the structure of `specs/002_the_hill.py`): `DURATION`, `PAYOFF`, `HERO`, `CAPTION`, `SOUNDS`, `PANELS`.
    Helpers live in `engine/core.py`: `ctx.figure(x, pose, facing, crack, gy, glow=ctx.payoff_glow)`, poses in `POSES`
    (stand, proud, push, sit, slump, kneel, arms_up, reach, phone, lift, squat, lie), `walk(phase, speed)`, `climb(phase)`,
@@ -42,7 +54,7 @@ Exactly 5 hashtags. Keywords motivation / discipline / mindset early in the text
    - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
    - NEVER use the abyanhammad@gmail.com / Unbreachd Studios connection — that is a different brand.
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
-4. Append a line to `posted.md`: `NNN | slug | scheduled_at | concept one-liner`. Commit + push.
+4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
 
 ## Schedule
 - Default slots (UK time): 13:00 and 20:00 daily. Publer free plan allows max 10 pending posts per account, so a run schedules at most 7 posts.
