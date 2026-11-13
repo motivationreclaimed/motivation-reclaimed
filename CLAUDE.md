@@ -9,7 +9,7 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - No titles, no hook text, no end card question. Only the panel labels (+ optional short sub-line). Straight to the point.
 - Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
 - Watermark "MOTIVATION RECLAIMED" is automatic.
-- **Length: 8–10 s** (current stage). The owner will raise this in stages (20 → 30 → 45 → 60+ s) as followers grow; only change it when this line is updated.
+- **Length: 8–10 s.** Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
 ## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
@@ -56,8 +56,7 @@ There is NO fixed template. Every caption must read differently from the last ~1
 2. Publer `upload_media` (selected_api `App232404CLIAPI`, upload_type `url`, `file_urls` = [raw URL]) → media id.
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.
-   - Accounts: `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
-   - **YouTube gets at most ONE post per day** (fewer uploads looks less "mass-produced"): include the YouTube account only on the 20:00 post. Any 13:00 post goes to Instagram + TikTok only.
+   - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
    - NEVER use the abyanhammad@gmail.com / Unbreachd Studios connection — that is a different brand.
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
@@ -66,7 +65,7 @@ There is NO fixed template. Every caption must read differently from the last ~1
 Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
 Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
 
-- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 (IG + TikTok) and 20:00 (IG + TikTok + YouTube) UK. Each run schedules 7 videos.
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK, all three platforms. Each run schedules 7 videos.
 - **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK, all three platforms.
   - Monday run: 3 videos → Mon, Tue, Wed 20:00.  Thursday run: 2 videos → Thu, Sat 20:00.
   - That is ~22 videos ≈ 88 tasks/month, leaving a small buffer under 100.
