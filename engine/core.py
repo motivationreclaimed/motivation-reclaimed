@@ -87,7 +87,7 @@ def climb(phase):
                 thR=40 * max(0, b) + 10, shR=-10, uaL=-25 * a, faL=30, uaR=-25 * b, faR=30)
 
 def breathe(p, t, amt=2.0):
-    p = dict(p); p["hip"] += math.sin(t * 2.4) * amt; return p
+    p = dict(POSES[p] if isinstance(p, str) else p); p["hip"] += math.sin(t * 2.4) * amt; return p
 
 # ------------------------------------------------------------------ figure
 def skeleton(x, gy, pose, facing=1, sc=1.0):
