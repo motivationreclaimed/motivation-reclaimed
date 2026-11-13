@@ -120,7 +120,7 @@ class Ctx:
     # --- figure
     scale = 0.8  # brand character size (fits 3-4 stacked panels)
 
-    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None, fill=1.0):
+    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None, fill=1.0, clamp=True):
         """crack=True draws the gold kintsugi crack; fill<1 shows it as a dark break
         that fills with gold from the head down (0 = empty break, 1 = full gold)."""
         sc = scale or self.scale
@@ -128,7 +128,7 @@ class Ctx:
         if isinstance(pose, str): pose = POSES[pose]
         s = skeleton(x, gy, pose, facing, sc)
         low = max(s["fL"][1], s["fR"][1], s["kL"][1], s["kR"][1]) - gy - 4
-        if low > 0:  # never sink below the ground mid-transition
+        if clamp and low > 0:  # never sink below the ground mid-transition
             s = {k: ((v[0], v[1] - low) if isinstance(v, tuple) else v) for k, v in s.items()}
         s["sc"] = sc
         c = tuple(int(lerp(12, ch, alpha)) for ch in col)
