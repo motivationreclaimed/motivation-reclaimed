@@ -7,3 +7,4 @@ NNN | slug | FORMAT | scheduled_at (UTC) | concept
 004 | the_alarm | SPLIT 2 | 2026-11-14T20:00:00Z | THE ALARM — SNOOZE scrolls in bed till 07:52 vs NOW gets up on first ring and lifts
 005 | the_stairs | PROGRESSION 4 | 2026-11-15T13:00:00Z | THE STAIRS — DAY 1 sits on step 1, DAY 30/100 climb higher, DAY 365 stands at the top by the flag
 006 | the_phone | COUNTER | 2026-11-15T20:00:00Z | THE PHONE — 3 HOURS screen-time counter climbs, goal 0% vs 3 MINUTES/day training, DAY 90 goal bar fills to 100%
+007 | the_mirror | SPLIT 2 | 2026-11-16T13:00:00Z | THE MIRROR — WHO YOU ARE sits and turns away vs WHO YOU COULD BE gets up and walks until he matches his gold reflection
