@@ -398,6 +398,28 @@ def render_frame(spec, fi):
         yy = (y - t * sp * 6) % H; xx = x + math.sin(t + phs) * 18; c = int(48 + 30 * math.sin(t * 2 + phs))
         d.ellipse([xx, yy, xx + sz, yy + sz], fill=(c, int(c * 0.85), int(c * 0.6)))
     tracked(d, W / 2, top + total + 40, WATERMARK, ImageFont.truetype(FONT, 26), (100, 97, 90), tr=9, anchor="c")
+    # CTA (comment / save / share prompt): appears after the payoff INSIDE the panel area
+    # (never below the watermark — bottom of the screen is covered by app UI).
+    cta = getattr(spec, "CTA", None)
+    if cta and payoff is not None and t >= payoff + 0.5:
+        ca_a = ease_out(ramp(t, payoff + 0.5, payoff + 0.95))
+        f_cta = ImageFont.truetype(FONT_I, 44 if n > 1 else 50)
+        words, lines, cur = cta.split(), [], ""
+        for w_ in words:
+            test = (cur + " " + w_).strip()
+            if f_cta.getlength(test) > 900 and cur: lines.append(cur); cur = w_
+            else: cur = test
+        lines.append(cur)
+        if n == 1:
+            cy = top + int(ph * 0.2)
+        else:
+            j = 0 if hero != 0 else 1   # a faded (non-hero) panel
+            cy = top + j * (ph + gap) + ph // 2
+        lh = int(f_cta.size * 1.25)
+        y0c = cy - lh * len(lines) // 2
+        col = tuple(int(c * ca_a) for c in (240, 228, 200))
+        for k, ln in enumerate(lines):
+            d.text((W / 2, y0c + k * lh), ln, font=f_cta, fill=col, anchor="ma")
 
     arr = np.asarray(img, np.float32).copy()
     arr = chroma(arr, ca)

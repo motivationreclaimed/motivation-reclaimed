@@ -6,7 +6,9 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 ## Brand rules (never break)
 - Black background, paper-grain texture, calm palette. Stacked panels (2–4), one-word UPPERCASE labels in a Times New Roman–style serif (Liberation Serif, set in the engine — never switch back to mono/sans fonts).
 - Brand character: white stick figure. The HERO (the right way, usually the last panel) always has the gold kintsugi crack (`crack=True`).
-- No titles, no hook text, no end card question. Only the panel labels (+ optional short sub-line). Straight to the point.
+- No titles and no hook text. Only the panel labels (+ optional short sub-line). Straight to the point.
+- **Every video has an on-screen CTA** (owner's rule): set `CTA = "..."` in the spec. The engine shows it in italic serif after the PAYOFF, inside the panel area (over a faded panel, or the upper part of a STORY scene). NEVER move it, the watermark or anything else lower on screen — the bottom is covered by app UI. Keep it ≤ 8 words, calm tone, and make sure PAYOFF ≤ DURATION − 2.5 so it stays readable ≥ 2 s.
+  Rotate CTA types and never repeat the exact wording of the last ~10 videos: comment a word ("Comment 'reclaim' if this is you."), comment an answer ("Which one are you? Comment below."), save ("Save this for the hard days."), share ("Send this to someone who needs it."), small commitment ("Comment 'day 1' and start today."). Match it to the concept.
 - Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Length: 8–10 s.** Do not change unless the owner updates this line.
