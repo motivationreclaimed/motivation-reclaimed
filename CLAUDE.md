@@ -11,6 +11,8 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
   Rotate CTA types and never repeat the exact wording of the last ~10 videos: comment a word ("Comment 'reclaim' if this is you."), comment an answer ("Which one are you? Comment below."), save ("Save this for the hard days."), share ("Send this to someone who needs it."), small commitment ("Comment 'day 1' and start today."). Match it to the concept.
 - Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
 - Watermark "MOTIVATION RECLAIMED" is automatic.
+- **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
+- **Quality:** final encode is high quality (CRF 18, ≤10 Mbps, preset medium) — never lower it to save time.
 - **Length: 8–10 s.** Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 

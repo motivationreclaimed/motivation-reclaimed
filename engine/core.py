@@ -316,7 +316,7 @@ _yy, _xx = np.mgrid[0:H, 0:W].astype(np.float32)
 _d2 = ((_xx - W/2) / (W*0.62))**2 + ((_yy - H/2) / (H*0.62))**2
 VIGN = (np.clip(1.15 - _d2*0.75, 0.3, 1.0) * np.where((_yy.astype(int) % 4) == 0, 0.95, 1.0))[..., None].astype(np.float32)
 _rng = np.random.default_rng(3)
-GRAIN = [_rng.normal(0, 6.5, (H, W, 1)).astype(np.float32) for _ in range(6)]
+GRAIN = [_rng.normal(0, 4.0, (H, W, 1)).astype(np.float32) for _ in range(6)]
 _fib = Image.fromarray((_rng.random((H//8, W//8)) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC)
 PAPER = ((np.asarray(_fib, np.float32) - 128) * 0.035)[..., None]
 DUST = [(random.Random(i).uniform(0, W), random.Random(i+99).uniform(0, H), random.Random(i+7).uniform(4, 14),
@@ -458,8 +458,8 @@ def render(spec, out, workers=2):
     sfx.build(spec, wav)
     tmp_out = out + ".tmp.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-i", wav,
-                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "23", "-preset", "veryfast",
-                    "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "160k", "-shortest", tmp_out], check=True)
+                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "grain", "-profile:v", "high",
+                    "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k", "-shortest", tmp_out], check=True)
     os.replace(tmp_out, out)
     return out
 

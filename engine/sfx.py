@@ -78,7 +78,8 @@ def build(spec, path):
     # calm bed: soft minor-ish pad + air
     pad = sum(np.sin(2*np.pi*f*t + k) * a for k, (f, a) in enumerate([(55, .22), (82.4, .12), (110, .07), (164.8, .04)]))
     pad *= (0.75 + 0.25*np.sin(2*np.pi*0.18*t)) * np.minimum(1, t/0.6)
-    out += pad[:, None] * 0.5
+    # NO MUSIC (owner rule): the tonal pad is disabled — sound effects only.
+    pad *= 0.0
     out += (_lp(_noise(N, 11), 0.03) * 0.25)[:, None]
     for k, ev in enumerate(getattr(spec, "SOUNDS", [])):
         at, kind = ev[0], ev[1]; g = ev[2] if len(ev) > 2 else 0.6
