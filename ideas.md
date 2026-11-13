@@ -2,6 +2,7 @@
 Format: [FORMAT] TITLE — panels (labels) — what happens — hero payoff
 Rotate formats: SPLIT 2, STORY, PROGRESSION 4, TRIO 3 (max 1 in 4), COUNTER, REVERSE. Invent new ideas freely.
 
+- [STORY] THE EDGE — (no labels) — a crowd of grey figures with blindfolds walks in step toward a cliff edge, the front ones dropping off; one figure stops, pulls his blindfold off and plants his feet while the line keeps pushing; he steps out of the line and turns away — blindfold falls, gold crack glows. Engine needs: crowd helper (many dimmed figures, walk cycles offset), cliff-edge prop, blindfold band on head (muted grey, NOT red). CTA idea: "Comment 'awake' if you stepped out." (Owner-flagged high priority; inspired by a viral crowd/cliff video — keep our own look, colours and staging.)
 - [STORY] THE FALL — FALLS / STAYS DOWN / GETS UP — all three fall; only one stands back up — hero stands, glow
 - [TRIO 3] THE BRIDGE — FEAR / PLANS / ACTS — gap in ground: one turns back, one paces, one builds plank by plank — walks across
 - [PROGRESSION 4] THE SEED — PLANTS / WAITS / WATERS — a seed in ground; only the one who waters daily grows a tree — tree blooms gold
