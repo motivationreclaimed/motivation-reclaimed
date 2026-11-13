@@ -405,16 +405,18 @@ def render_frame(spec, fi):
     # panels — never over the animation, never near the bottom.
     cta = getattr(spec, "CTA", None)
     if cta:
+        cta = cta.upper()
         a_in = ease_out(ramp(t, 0.15, 0.6))
-        size = 46
-        f_cta = ImageFont.truetype(FONT_I, size)
-        while f_cta.getlength(cta) > 960 and size > 28:
-            size -= 2; f_cta = ImageFont.truetype(FONT_I, size)
+        size, trk = 40, 4
+        f_cta = ImageFont.truetype(FONT, size)
+        def wid(f, tr): return sum(f.getlength(ch) for ch in cta) + tr * (len(cta) - 1)
+        while wid(f_cta, trk) > 960 and size > 26:
+            size -= 2; trk = max(2, trk - 0.3); f_cta = ImageFont.truetype(FONT, size)
         gold = ease_io(ramp(t, payoff, payoff + 0.6)) if payoff is not None else 0
         base = tuple(lerp(c, g, gold) for c, g in zip((236, 228, 210), (240, 200, 120)))
         col = tuple(int(c * a_in) for c in base)
-        d.text((W / 2, top - 58), cta, font=f_cta, fill=col, anchor="mm")
-        lw = min(f_cta.getlength(cta), 960) * 0.18
+        tracked(d, W / 2, top - 58 - size * 0.62, cta, f_cta, col, tr=trk, anchor="c")
+        lw = min(wid(f_cta, trk), 960) * 0.18
         d.line([(W / 2 - lw, top - 22), (W / 2 + lw, top - 22)], fill=tuple(int(c * a_in * 0.5) for c in GOLD), width=2)
 
     arr = np.asarray(img, np.float32).copy()
