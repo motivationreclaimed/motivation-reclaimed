@@ -8,7 +8,8 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Brand character: white stick figure. The HERO (the right way, usually the last panel) always has the gold kintsugi crack (`crack=True`).
 - No titles, no hook text, no end card question. Only the panel labels (+ optional short sub-line). Straight to the point.
 - Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
-- Watermark "MOTIVATION RECLAIMED" is automatic. Length 8–10 s.
+- Watermark "MOTIVATION RECLAIMED" is automatic.
+- **Length: 8–10 s** (current stage). The owner will raise this in stages (20 → 30 → 45 → 60+ s) as followers grow; only change it when this line is updated.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
 ## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
@@ -33,17 +34,21 @@ Hero still carries the gold crack and the PAYOFF ending still closes every video
 3. Check ONE preview sheet: `python3 make.py specs/NNN_slug.py --stills 1.5 4 PAYOFF+1` and look at it. Fix clipping/overlaps.
 4. Render: `python3 make.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~30 s).
 
-## Caption format (SEO)
-```
-<one-line hook with the core idea> <one emoji>
-
-<2 short sentences explaining the three panels>
-
-<one line lesson>. Follow for daily motivation and discipline. 🏺
-
-#motivation #discipline #mindset #selfimprovement #motivationalvideo
-```
-Exactly 5 hashtags. Keywords motivation / discipline / mindset early in the text.
+## Captions (SEO, VARIED, human — avoids "inauthentic/repetitive content" flags)
+There is NO fixed template. Every caption must read differently from the last ~10 in posted.md captions (see specs/).
+- **First line = the title.** Unique, under 90 characters, contains a keyword (motivation, discipline, mindset, habits, self improvement, consistency…). YouTube uses it as the Short's title. Never reuse a title pattern twice in a row (e.g. not "Same X. Three people." again).
+- **Body:** 1–3 short lines. Vary the structure: sometimes a reflection, sometimes one blunt sentence, sometimes a question, sometimes a tiny story. Sometimes no body at all.
+- **Voice:** roughly half the captions in a quiet first-person voice — a man rebuilding himself, speaking plainly, like a note to himself. Examples of the RIGHT tone:
+  - "Didn't feel like it today. Did it anyway. That's the whole secret."
+  - "I used to wait for motivation. Now I just start and let it catch up."
+  - "Nobody claps for the boring days. They're the ones that count."
+  The rest: direct second person ("You don't need a new year. You need a Tuesday.").
+  BANNED (cringe/hype): "grindset", "alpha", "king", "sigma", "hustle harder", "no days off", "rise and grind", ALL-CAPS shouting, emoji spam, "Day X of my journey" on every post, fake life details (jobs, family, money, illnesses), invented quotes from real people.
+- **Sign-off:** optional and rotating — "Follow for more.", "Save this for tomorrow.", "Send this to someone who needs it.", or none. Never the same sign-off twice in a row.
+- **Emojis:** 0–2, varied. 🏺 occasionally, not every time.
+- **Hashtags:** 3–5, rotated. Always 1–2 core (#motivation #discipline #mindset) + 2–3 from the pool, matched to the concept:
+  #selfimprovement #motivationalvideo #consistency #habits #selfdiscipline #growthmindset #nevergiveup #mentalstrength #personalgrowth #dailymotivation #success #focus #morningroutine #gymmotivation #comeback #healing #patience #progress #animation #stickfigure
+- Save the caption as `CAPTION` in the spec (so future runs can check for repetition).
 
 ## Posting (Zapier → Publer)
 1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL:
@@ -51,7 +56,8 @@ Exactly 5 hashtags. Keywords motivation / discipline / mindset early in the text
 2. Publer `upload_media` (selected_api `App232404CLIAPI`, upload_type `url`, `file_urls` = [raw URL]) → media id.
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.
-   - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
+   - Accounts: `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
+   - **YouTube gets at most ONE post per day** (fewer uploads looks less "mass-produced"): include the YouTube account only on the 20:00 post. Any 13:00 post goes to Instagram + TikTok only.
    - NEVER use the abyanhammad@gmail.com / Unbreachd Studios connection — that is a different brand.
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
@@ -60,8 +66,8 @@ Exactly 5 hashtags. Keywords motivation / discipline / mindset early in the text
 Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
 Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
 
-- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK. Each run schedules 7 videos.
-- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK.
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 (IG + TikTok) and 20:00 (IG + TikTok + YouTube) UK. Each run schedules 7 videos.
+- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK, all three platforms.
   - Monday run: 3 videos → Mon, Tue, Wed 20:00.  Thursday run: 2 videos → Thu, Sat 20:00.
   - That is ~22 videos ≈ 88 tasks/month, leaving a small buffer under 100.
   - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
