@@ -72,6 +72,10 @@ Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (u
 - Only call `upload_media` and `create_post`. Use inspect only if one of those calls fails with a parameter error.
 - If Zapier reports the task limit is reached: stop posting, keep the rendered videos committed in the repo, log them in posted.md as `NOT SCHEDULED (zapier limit)`, and say so clearly in the final report so the owner can post them manually or upgrade.
 
+## Housekeeping (keeps the free GitHub repo small)
+- Publer copies each video when `upload_media` runs, so old video files are no longer needed.
+- At the start of every run, `git rm` any `videos/*.mp4` whose post is scheduled more than 7 days in the past (per posted.md). Keep specs and logs.
+
 ## Keeping credits low
 - One preview sheet per video, one render. No extra re-renders unless something is visibly broken.
 - Reuse/extend engine helpers instead of writing new drawing code per video.
