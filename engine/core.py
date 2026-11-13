@@ -53,6 +53,7 @@ POSES = {
     "phone":   dict(hip=136, lean=14,  thL=4,  shL=2,  thR=-6, shR=-4, uaL=8,   faL=4,   uaR=30,  faR=120),
     "lift":    dict(hip=128, lean=0,   thL=16, shL=-8, thR=-16, shR=8,  uaL=160, faL=180, uaR=-160, faR=-180),
     "squat":   dict(hip=96,  lean=24,  thL=70, shL=-20, thR=-70, shR=20, uaL=40, faL=20,  uaR=-40, faR=-20),
+    "floor":   dict(hip=22,  lean=36,  thL=128, shL=28, thR=118, shR=18,  uaL=34,  faL=78,  uaR=24,  faR=68),  # sitting on the ground, knees up, head down
     "lie":     dict(hip=16,  lean=86,  thL=88, shL=90, thR=86, shR=88,  uaL=96,  faL=96,  uaR=80,  faR=84),
 }
 KEYS = ["hip", "lean", "thL", "shL", "thR", "shR", "uaL", "faL", "uaR", "faR"]
@@ -119,11 +120,16 @@ class Ctx:
     # --- figure
     scale = 0.8  # brand character size (fits 3-4 stacked panels)
 
-    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None):
+    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None, fill=1.0):
+        """crack=True draws the gold kintsugi crack; fill<1 shows it as a dark break
+        that fills with gold from the head down (0 = empty break, 1 = full gold)."""
         sc = scale or self.scale
         gy = self.ground if gy is None else gy
         if isinstance(pose, str): pose = POSES[pose]
         s = skeleton(x, gy, pose, facing, sc)
+        low = max(s["fL"][1], s["fR"][1], s["kL"][1], s["kR"][1]) - gy - 4
+        if low > 0:  # never sink below the ground mid-transition
+            s = {k: ((v[0], v[1] - low) if isinstance(v, tuple) else v) for k, v in s.items()}
         s["sc"] = sc
         c = tuple(int(lerp(12, ch, alpha)) for ch in col)
         w = int(15 * max(0.75, sc))
@@ -136,10 +142,10 @@ class Ctx:
         seg(s["hip"], s["neck"]); seg(s["hip"], s["kR"], s["fR"]); seg(s["sh"], s["eR"], s["hR"])
         hx, hy = s["head"]
         d.ellipse([hx-RH, hy-RH, hx+RH, hy+RH], fill=c)
-        if crack: self._crack(s, glow)
+        if crack: self._crack(s, glow, fill)
         return s
 
-    def _crack(self, s, glow):
+    def _crack(self, s, glow, fill=1.0):
         hx, hy = s["head"]; nx, ny = s["neck"]; px, py = s["hip"]
         R_HEAD = 27 * s["sc"]
         dx, dy = px - nx, py - ny; L = math.hypot(dx, dy) or 1
@@ -149,7 +155,19 @@ class Ctx:
         for k, f in enumerate([0.3, 0.55, 0.8, 1.0]):
             o = 6 if k % 2 == 0 else -6
             pts.append((nx + dx*f + vx*o, ny + dy*f + vy*o))
-        self.d.line(pts, fill=GOLD, width=7, joint="curve")
+        if fill < 1.0:
+            self.d.line(pts, fill=(18, 18, 22), width=7, joint="curve")
+            segs = list(zip(pts, pts[1:])); lens = [math.hypot(b[0]-a[0], b[1]-a[1]) for a, b in segs]
+            left = sum(lens) * clamp(fill); gp = [pts[0]]
+            for (a, b), l in zip(segs, lens):
+                if left <= 0: break
+                u = min(1, left / (l or 1)); gp.append((lerp(a[0], b[0], u), lerp(a[1], b[1], u))); left -= l
+            if len(gp) > 1 and fill > 0:
+                self.d.line(gp, fill=GOLD, width=7, joint="curve")
+                k = 0.5; tip = gp[-1]
+                self.g.ellipse([(tip[0]-26)*k, (tip[1]-26)*k, (tip[0]+26)*k, (tip[1]+26)*k], fill=(200, 150, 60))
+        else:
+            self.d.line(pts, fill=GOLD, width=7, joint="curve")
         if glow > 0:
             k = 0.5
             self.g.line([(x*k, y*k) for x, y in pts], fill=tuple(int(c*glow) for c in (255, 190, 80)), width=int(10 + 10*glow))
@@ -227,6 +245,37 @@ class Ctx:
     def flag(self, x, y, wave=0.0):
         self.d.line([(x, y), (x, y - 140)], fill=(150, 150, 160), width=5)
         self.d.polygon([(x, y - 140), (x + 70, y - 122 + 6 * math.sin(wave)), (x, y - 100)], fill=GOLD)
+
+    def door(self, x, w=150, h=300, open_=0.0, light=0.0):
+        """Door standing on the ground. open_ 0..1 swings it open; light 0..1 = gold light through it."""
+        gy = self.ground
+        self.d.rectangle([x - 10, gy - h - 10, x + w + 10, gy], fill=(30, 30, 36), outline=(100, 100, 110), width=3)
+        if light > 0:
+            self.d.rectangle([x, gy - h, x + w, gy], fill=tuple(int(lerp(12, c, light * 0.9)) for c in (255, 214, 140)))
+            self.light(x + w / 2, gy - h / 2, h * 0.9, GOLD, light)
+            k = 0.5
+            self.g.polygon([(x*k, gy*k), ((x+w)*k, gy*k), ((x+w+260*light)*k, (gy+4)*k), ((x-260*light)*k, (gy+4)*k)], fill=tuple(int(c*0.5*light) for c in GOLD))
+        else:
+            self.d.rectangle([x, gy - h, x + w, gy], fill=(8, 8, 10))
+        ww = w * (1 - 0.82 * clamp(open_))
+        self.d.polygon([(x, gy - h), (x + ww, gy - h + 14 * open_), (x + ww, gy - 14 * open_), (x, gy)], fill=(58, 56, 62), outline=(120, 118, 126))
+        if ww > 30: self.d.ellipse([x + ww - 26, gy - h / 2 - 6, x + ww - 14, gy - h / 2 + 6], fill=(170, 160, 130))
+
+    def mirror(self, x, w=260, h=420, col=(120, 122, 134)):
+        """Standing mirror frame; returns (x0, x1) of the glass."""
+        gy = self.ground
+        self.d.rounded_rectangle([x, gy - h, x + w, gy - 10], 16, fill=(16, 17, 22), outline=col, width=6)
+        self.d.line([(x + 30, gy - h + 40), (x + 70, gy - h + 90)], fill=(50, 52, 60), width=4)
+        return x, x + w
+
+    def bar(self, x, y, w, frac, col=None, h=16):
+        """Progress bar."""
+        col = col or self.accent
+        self.d.rounded_rectangle([x, y, x + w, y + h], h // 2, outline=(80, 80, 88), width=2)
+        if frac > 0.01:
+            self.d.rounded_rectangle([x + 3, y + 3, x + 3 + (w - 6) * clamp(frac), y + h - 3], (h - 6) // 2, fill=col)
+            k = 0.5; ex = x + (w - 6) * clamp(frac)
+            self.g.ellipse([(ex-24)*k, (y-16)*k, (ex+24)*k, (y+h+16)*k], fill=tuple(int(c*0.4) for c in col))
 
     def text(self, x, y, s, size=30, col=(200, 200, 205), anchor="mm"):
         f = ImageFont.truetype(FONT_B, size)
@@ -323,7 +372,8 @@ def render_frame(spec, fi):
             lum = pa.mean(axis=2, keepdims=True); pa = lerp(pa, lum * 0.32, dim)
         lab = Image.fromarray(np.clip(pa, 0, 255).astype(np.uint8)); dl = ImageDraw.Draw(lab)
         lc = accent if not (i != hero and dim > 0) else tuple(int(lerp(c, 80, dim)) for c in accent)
-        if P.get("label"): tracked(dl, 48, 26, P["label"], F_LABEL, lc, tr=7)
+        label = P["label"](t) if callable(P.get("label")) else P.get("label")
+        if label: tracked(dl, 48, 26, label, F_LABEL, lc, tr=7)
         if P.get("sub") and t >= P.get("sub_t", 0):
             sc = (175, 175, 180) if i != hero else (235, 220, 190)
             if i != hero and dim > 0: sc = tuple(int(lerp(c, 70, dim)) for c in sc)
