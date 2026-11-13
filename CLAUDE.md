@@ -56,9 +56,21 @@ Exactly 5 hashtags. Keywords motivation / discipline / mindset early in the text
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
 
-## Schedule
-- Default slots (UK time): 13:00 and 20:00 daily. Publer free plan allows max 10 pending posts per account, so a run schedules at most 7 posts.
-- Each run: make and schedule the posts for the next ~3–4 days, starting after the last scheduled time in `posted.md`.
+## Schedule (date-based — check today's date first)
+Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
+Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
+
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK. Each run schedules 7 videos.
+- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK.
+  - Monday run: 3 videos → Mon, Tue, Wed 20:00.  Thursday run: 2 videos → Thu, Sat 20:00.
+  - That is ~22 videos ≈ 88 tasks/month, leaving a small buffer under 100.
+  - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
+- Never schedule into the past or before an already-scheduled post (check posted.md). Publer free allows max 10 pending posts per account.
+
+## Zapier budget rules (important on the free plan)
+- Do NOT call inspect / discover / list / read actions on Zapier during normal runs — every successful call burns 2 tasks. All IDs needed are in this file.
+- Only call `upload_media` and `create_post`. Use inspect only if one of those calls fails with a parameter error.
+- If Zapier reports the task limit is reached: stop posting, keep the rendered videos committed in the repo, log them in posted.md as `NOT SCHEDULED (zapier limit)`, and say so clearly in the final report so the owner can post them manually or upgrade.
 
 ## Keeping credits low
 - One preview sheet per video, one render. No extra re-renders unless something is visibly broken.
