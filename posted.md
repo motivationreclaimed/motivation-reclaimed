@@ -9,3 +9,4 @@ NNN | slug | FORMAT | scheduled_at (UTC) | concept
 006 | the_phone | COUNTER | 2026-11-15T20:00:00Z | THE PHONE — 3 HOURS screen-time counter climbs, goal 0% vs 3 MINUTES/day training, DAY 90 goal bar fills to 100%
 007 | the_mirror | SPLIT 2 | 2026-11-16T13:00:00Z | THE MIRROR — WHO YOU ARE sits and turns away vs WHO YOU COULD BE gets up and walks until he matches his gold reflection
 008 | the_crowd | STORY | 2026-11-16T20:00:00Z | THE CROWD — everyone walks left; he stops, turns around and walks alone into the light
+009 | the_door | REVERSE | 2026-11-17T13:00:00Z | THE DOOR — opens on the gold doorway, rewinds: KNOCKS ONCE walks away vs KNOCKS DAILY (day counter to 47) until it opens
