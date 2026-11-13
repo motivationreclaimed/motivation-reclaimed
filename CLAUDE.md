@@ -1,6 +1,6 @@
 # Motivation Reclaimed — content engine & posting playbook
 
-Faceless motivation channel. Instagram / TikTok / YouTube Shorts, all posted through Publer via the Zapier connector.
+Faceless motivation channel. Instagram + YouTube Shorts are posted through Publer via the Zapier connector; TikTok is posted manually by the owner (see Posting).
 Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @motivation_reclaimed (YouTube).
 
 ## Brand rules (never break)
@@ -58,7 +58,9 @@ There is NO fixed template. Every caption must read differently from the last ~1
 2. Publer `upload_media` (selected_api `App232404CLIAPI`, upload_type `url`, `file_urls` = [raw URL]) → media id.
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.
-   - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
+   - Accounts: `6af658d73a8f484368c1cf7e` (Instagram) and `6af65afdd185a8df145dea8a` (YouTube) ONLY.
+   - **Do NOT post to TikTok through Publer** (TikTok account id `6af65b2b1fc93c847bca0e16` — never include it). TikTok gave 0 views to every API/Publer post but ~500 to the same video uploaded manually in the TikTok app. The owner posts TikTok manually.
+   - For TikTok, the final run report must list, for every video: the planned TikTok post time (same slot as IG/YT), the direct video link (`https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`), and the caption ready to paste. Keep these video files in the repo at least 7 days (housekeeping rule already does this).
    - NEVER use the abyanhammad@gmail.com / Unbreachd Studios connection — that is a different brand.
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
@@ -67,8 +69,8 @@ There is NO fixed template. Every caption must read differently from the last ~1
 Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
 Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
 
-- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK, all three platforms. Each run schedules 7 videos.
-- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK, all three platforms.
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK, Instagram + YouTube via Publer (TikTok manual). Each run schedules 7 videos.
+- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK, Instagram + YouTube via Publer (TikTok manual).
   - Monday run: 3 videos → Mon, Tue, Wed 20:00.  Thursday run: 2 videos → Thu, Sat 20:00.
   - That is ~22 videos ≈ 88 tasks/month, leaving a small buffer under 100.
   - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
