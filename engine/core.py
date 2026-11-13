@@ -422,14 +422,14 @@ def render_frame(spec, fi):
     # SAFE ZONE: shrink the whole composition (CTA + panels + watermark) uniformly and centre it
     # inside the area that TikTok / Reels / Shorts never cover (top search/tabs, bottom caption,
     # right-hand buttons). Scene code keeps its normal coordinates.
-    SAFE_T, SAFE_B = 230, 1400
+    SAFE_T, SAFE_B = 300, 1400   # top raised further from TikTok's search bar (owner request)
     y_a, y_b = max(0, top - 110), min(H, STACK_BOTTOM + 90)
     sc_ = min(1.0, (SAFE_B - SAFE_T) / (y_b - y_a))
     region = img.crop((0, y_a, W, y_b))
     nw, nh = int(W * sc_), int((y_b - y_a) * sc_)
     region = region.resize((nw, nh), Image.LANCZOS)
     img = Image.new("RGB", (W, H), (0, 0, 0))
-    img.paste(region, ((W - nw) // 2, SAFE_T + ((SAFE_B - SAFE_T) - nh) // 2))
+    img.paste(region, ((W - nw) // 2, SAFE_B - nh))   # bottom edge stays fixed
 
     arr = np.asarray(img, np.float32).copy()
     arr = chroma(arr, ca)
