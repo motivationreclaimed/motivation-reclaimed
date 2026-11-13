@@ -11,8 +11,10 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 W, H, FPS = 1080, 1920, 30
-FONT_B = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf"
-FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"
+# Times New Roman style (Liberation Serif is metric-identical to Times New Roman)
+FONT_B = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
+FONT = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
+FONT_I = "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf"
 
 INK = (240, 236, 226)
 GOLD = (214, 170, 72)
@@ -346,7 +348,7 @@ def render_frame(spec, fi):
     payoff = getattr(spec, "PAYOFF", None)
     hero = getattr(spec, "HERO", n - 1)
     dim = ease_io(ramp(t, payoff + 0.3, payoff + 0.9)) if payoff is not None else 0
-    F_LABEL = ImageFont.truetype(FONT_B, 44 if n <= 3 else 38)
+    F_LABEL = ImageFont.truetype(FONT_B, 50 if n <= 3 else 42)
     fig_scale = getattr(spec, "FIG_SCALE", {1: 1.6, 2: 1.0, 3: 0.8, 4: 0.68}[n])
 
     frame = np.zeros((H, W, 3), np.float32)
@@ -373,11 +375,11 @@ def render_frame(spec, fi):
         lab = Image.fromarray(np.clip(pa, 0, 255).astype(np.uint8)); dl = ImageDraw.Draw(lab)
         lc = accent if not (i != hero and dim > 0) else tuple(int(lerp(c, 80, dim)) for c in accent)
         label = P["label"](t) if callable(P.get("label")) else P.get("label")
-        if label: tracked(dl, 48, 26, label, F_LABEL, lc, tr=7)
+        if label: tracked(dl, 48, 22, label, F_LABEL, lc, tr=9)
         if P.get("sub") and t >= P.get("sub_t", 0):
             sc = (175, 175, 180) if i != hero else (235, 220, 190)
             if i != hero and dim > 0: sc = tuple(int(lerp(c, 70, dim)) for c in sc)
-            tracked(dl, 50, 82, P["sub"], ImageFont.truetype(FONT_B, 26), sc, tr=4)
+            tracked(dl, 50, 84, P["sub"], ImageFont.truetype(FONT_I, 30), sc, tr=2)
         pa = np.asarray(lab, np.float32)
         # per-panel impacts
         amp = shake_global
@@ -395,7 +397,7 @@ def render_frame(spec, fi):
     for (x, y, sp, sz, phs) in DUST:
         yy = (y - t * sp * 6) % H; xx = x + math.sin(t + phs) * 18; c = int(48 + 30 * math.sin(t * 2 + phs))
         d.ellipse([xx, yy, xx + sz, yy + sz], fill=(c, int(c * 0.85), int(c * 0.6)))
-    tracked(d, W / 2, top + total + 40, WATERMARK, ImageFont.truetype(FONT, 24), (92, 90, 84), tr=10, anchor="c")
+    tracked(d, W / 2, top + total + 40, WATERMARK, ImageFont.truetype(FONT, 26), (100, 97, 90), tr=9, anchor="c")
 
     arr = np.asarray(img, np.float32).copy()
     arr = chroma(arr, ca)

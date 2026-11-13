@@ -4,7 +4,7 @@ Faceless motivation channel. Instagram / TikTok / YouTube Shorts, all posted thr
 Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @motivation_reclaimed (YouTube).
 
 ## Brand rules (never break)
-- Black background, paper-grain texture, calm palette. Stacked panels (2–4), one-word UPPERCASE labels in mono font.
+- Black background, paper-grain texture, calm palette. Stacked panels (2–4), one-word UPPERCASE labels in a Times New Roman–style serif (Liberation Serif, set in the engine — never switch back to mono/sans fonts).
 - Brand character: white stick figure. The HERO (the right way, usually the last panel) always has the gold kintsugi crack (`crack=True`).
 - No titles, no hook text, no end card question. Only the panel labels (+ optional short sub-line). Straight to the point.
 - Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
