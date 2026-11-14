@@ -81,6 +81,15 @@ Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (u
 - Only call `upload_media` and `create_post`. Use inspect only if one of those calls fails with a parameter error.
 - If Zapier reports the task limit is reached: stop posting, keep the rendered videos committed in the repo, log them in posted.md as `NOT SCHEDULED (zapier limit)`, and say so clearly in the final report so the owner can post them manually or upgrade.
 
+## If Zapier / Publer is unavailable (connector down, outage, 5xx errors)
+- Still make and render all the videos, commit + push them, and log each in posted.md as
+  `NNN | slug | FORMAT | PENDING (zapier unavailable) | planned_slot | concept` (planned_slot = the ISO time it should have gone out).
+- Say so clearly in the run report. Do not burn retries in a loop — the separate **retry task** (Mon & Thu 14:17 and 18:17 UK) will post them.
+- Retry task behaviour: if posted.md has NO `PENDING` lines → stop immediately, do nothing else. Otherwise, for each PENDING video:
+  upload_media + create_post as normal; if its planned slot is already in the past, schedule it at the next free 13:00/20:00 slot
+  after the last scheduled post (never in the past); replace PENDING with the real scheduled_at; commit + push.
+  If Zapier is still down, leave them PENDING for the next retry.
+
 ## Housekeeping (keeps the free GitHub repo small)
 - Publer copies each video when `upload_media` runs, so old video files are no longer needed.
 - At the start of every run, `git rm` any `videos/*.mp4` whose post is scheduled more than 7 days in the past (per posted.md). Keep specs and logs.
