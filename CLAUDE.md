@@ -71,6 +71,7 @@ Also vary camera moves, which counter (DAY / REPS / STEPS / HOURS), the speed-up
    text `spaced(...)`, `tag(d, x, y, text, gold)`, `chrome(d, t, CTA, PAYOFF)`. Speed-up = a scene-time function like `st(t)` (×4 inside BLUR).
 3. Check ONE preview sheet: `python3 make3d.py specs/NNN_slug.py --stills <6–7 times across the video>` and LOOK at it: figures visible and readable, nothing off-screen, tags fully on screen, text not overlapping, camera never empty for long. Fix and re-check once if needed.
 4. Render: `python3 make3d.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~1.5 min).
+5. **Variety self-check before posting (every run):** compare this run's videos with the last ~10 in specs/ — scene type, hook, tags, closing line, camera path, payoff time, speed-up yes/no, topic (MONEY vs discipline). If any two look like the same template, rewrite one before posting. Put a one-line "Variety check: …" in the run report so the owner can see it.
 
 ## Captions (SEO, VARIED, human — avoids "inauthentic/repetitive content" flags)
 There is NO fixed template. Every caption must read differently from the last ~10 in posted.md captions (see specs/).
