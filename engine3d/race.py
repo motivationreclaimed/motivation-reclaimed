@@ -240,7 +240,10 @@ def frame(t, sub=0.0):
     return img, cam, JH, JG, s, hx
 
 def overlay(img8, t, cam, JH, JG, s, hx):
-    im = Image.fromarray(img8); d = ImageDraw.Draw(im)
+    im = Image.fromarray(img8); overlay_draw(ImageDraw.Draw(im), t, cam, JH, JG, s, hx)
+    return np.asarray(im)
+
+def overlay_draw(d, t, cam, JH, JG, s, hx):
     # labels floating above heads
     for J, name, gold in ((JG, "PHONE", False), (JH, "DISCIPLINE", True)):
         p = cam.proj(J["head"] + np.array([0, 0.42, 0], np.float32))
@@ -267,7 +270,6 @@ def overlay(img8, t, cam, JH, JG, s, hx):
     spaced(d, (W / 2, 335), "WHICH LANE ARE YOU IN? COMMENT BELOW.", 30, (255, 205, 130) if t >= 7.6 else (205, 205, 210), sp=5)
     d.line([(W / 2 - 300, 370), (W / 2 + 300, 370)], fill=(60, 60, 66), width=1)
     spaced(d, (W / 2, 1440), "MOTIVATION RECLAIMED", 22, (90, 90, 96), sp=6)
-    return np.asarray(im)
 
 def finish(img):
     g = np.random.default_rng(int(img.sum()) % 99999).normal(0, 3.0, (H, W, 1)).astype(np.float32)

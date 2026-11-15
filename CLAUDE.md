@@ -3,13 +3,21 @@
 Faceless motivation channel. Instagram / TikTok / YouTube Shorts, all posted through Publer via the Zapier connector.
 Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @motivation_reclaimed (YouTube).
 
+## STYLE: 3D "GOLD LIGHT" (owner-approved 15 Nov 2026 — every NEW video uses this; the old 2D panel engine is retired, do not use make.py)
+- A dark matte 3D world (reflective floor, fog, distant light strips), a camera that MOVES (push-in, follow, fly-through, slow orbit at the end).
+- The HERO is the ivory figure with glowing gold kintsugi cracks — the only warm light source; he lights the floor and the people near him. Everyone else = matte grey 3D figures (often on their phones: blue screen glow).
+- Each video is a small story with stakes, like the reference channels the owner loves: a race, a climb, a gym that empties, a wall, a split timeline… Something must happen every 1–2 s.
+- Tools of the style (use most of them every video): one short HOOK line in the first second (≤ 5 words, e.g. "SAME 24 HOURS.", "EVERYONE WANTS THE TOP."), floating labels over figures, little speech TAGS ("let's go.", "maybe monday."), counters (DAY / REPS / STEPS), a SPEED-UP section (×4, motion blur, counter racing) to show time passing, and the gold PAYOFF (burst, sparks, orbit, one short closing line like "ONE STEP A DAY.").
+- Text is Liberation Serif, letter-spaced caps (built into the helpers). Calm tone, no shouting.
+- **Ready to post (rendered, committed):** `specs/010_which_lane.py`, `011_one_step_a_day.py`, `012_still_here.py` with `videos/010_which_lane.mp4`, `011_…`, `012_…`. The next run posts these three FIRST (they count as 3 of its videos), then makes the rest new.
+
 ## Brand rules (never break)
-- Black background, paper-grain texture, calm palette. Stacked panels (2–4), one-word UPPERCASE labels in a Times New Roman–style serif (Liberation Serif, set in the engine — never switch back to mono/sans fonts).
-- Brand character: white stick figure. The HERO (the right way, usually the last panel) always has the gold kintsugi crack (`crack=True`).
-- No titles and no hook text. Only the panel labels (+ optional short sub-line). Straight to the point.
-- **Every video has an on-screen CTA** (owner's rule): set `CTA = "..."` in the spec. The engine shows it for the WHOLE video, in ALL CAPS letter-spaced serif (automatic — write it normally), in its own band directly above the panels — never over the animation and never lower on screen (the panel stack ends at a fixed line; the bottom is covered by app UI). Do not override `PANEL_H` or the layout. The engine also shrinks the whole composition into the platform SAFE ZONE (y 300–1400, bottom-anchored, side margins) so TikTok/Reels/Shorts UI never covers it — never disable or enlarge this. Keep it ≤ 8 words, calm tone.
+- Times New Roman–style serif (Liberation Serif) for all text — never mono/sans.
+- The HERO always carries the glowing gold kintsugi cracks.
+- Only ONE short hook line (≤ 5 words) at the start + labels/tags/counters. No long titles or paragraphs on screen.
+- **Every video has an on-screen CTA** (owner's rule): set `CTA = "..."` in the spec. `chrome(d, t, CTA, PAYOFF)` draws it for the WHOLE video in ALL CAPS letter-spaced serif at y≈335 (top band, under the app's top UI) plus the watermark at y≈1440. Keep all important action and text between y 300 and 1400 (TikTok/Reels/Shorts UI covers the rest) — hook/counter text sits at y≈520. Keep it ≤ 8 words, calm tone.
   Rotate CTA types and never repeat the exact wording of the last ~10 videos: comment a word ("Comment 'reclaim' if this is you."), comment an answer ("Which one are you? Comment below."), save ("Save this for the hard days."), share ("Send this to someone who needs it."), small commitment ("Comment 'day 1' and start today."). Match it to the concept.
-- Every video ends with the PAYOFF: hero glows gold, other panels fade, sound logo plays (automatic when `PAYOFF` is set).
+- Every video ends with the PAYOFF at `PAYOFF` (~7.6 s): gold flash (automatic), hero raises arms (`ARMS_V`), aura/floor light grow, `sparks`, camera orbits or pulls back, one short gold closing line; the sound logo plays automatically.
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
 - **Quality:** final encode is high quality (CRF 18, ≤10 Mbps for shorts / ≤7 Mbps for episodes so 90 s stays under GitHub's 95 MB raw limit, preset medium) — never lower it to save time.
@@ -26,17 +34,16 @@ The channel is NOT a generic quote page. It is **"the calm discipline channel": 
 - **Off-limits topics (owner rule):** no "alpha male", "sigma", manosphere, dating/relationship-advice, "leave/ignore girls", "women are a distraction", or anything that puts down any group. The channel is about rebuilding yourself — keep it inclusive.
 - **Audience: UK + US** (account is UK-based). Write in natural English that reads well to both (everyday words, no regional slang from elsewhere); use relatable UK/US-life moments (alarm before work, the commute, the gym after work, Sunday reset, scrolling in bed). Keep hashtags English.
 
-## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
-Rotate formats. Never use the same format twice in a row, and use the classic "3 labelled panels" in at most 1 of every 4 videos.
-Formats (record the format in posted.md):
-- **SPLIT 2** — two panels, e.g. YOU vs YOU, BEFORE / AFTER, 3 HOURS / 3 MINUTES (`PANELS` with 2 entries).
-- **STORY** — one full-screen scene (1 panel, figure auto-scaled 1.6×), a short wordless story: fall → get up, crack fills with gold, walking against a crowd. Labels optional (`label: ""`).
-- **PROGRESSION 4** — four panels as a timeline: DAY 1 / DAY 30 / DAY 100 / DAY 365.
-- **TRIO 3** — the classic three-way comparison (limit as above).
-- **COUNTER** — one scene with a changing on-screen number/day counter or progress bar (`ctx.text`).
-- **REVERSE** — starts at the gold payoff, then shows how he got there.
-Also vary: props, settings (hill, stairs, gym, bed, rain, road, crowd, door), pacing, which panel is the hero, and sound events.
-Hero still carries the gold crack and the PAYOFF ending still closes every video — that is the signature that stays constant.
+## VARIETY (owner's explicit rule)
+Never the same scene type twice in a row. Record the FORMAT in posted.md. 3D formats:
+- **RACE** — lanes, two or more runners (`specs/010_which_lane.py` / `engine3d/race.py`).
+- **CLIMB** — stairs/steps/ladder up, others stop below (`specs/011_one_step_a_day.py`).
+- **QUIT** — a group starts together, they drop out one by one, he's still there (`specs/012_still_here.py`).
+- **WALL** — boxes as bricks: build a wall / break through one (use `box()`).
+- **DOOR / ROOM** — a doorway of light, bed + alarm, desk… built from `box()` (keep sets minimal).
+- **CROWD** — many grey figures walking one way, he turns / walks the other way.
+- **REVERSE** — open on the gold payoff, then "ONE YEAR AGO" and how he got there.
+Also vary camera moves, which counter (DAY / REPS / STEPS / HOURS), the speed-up moment, tags and sounds. The gold hero + gold PAYOFF ending stay constant.
 
 ## EPISODES — **OFF (owner, 15 Nov 2026): no long videos for now — maybe in 2–3 months. Do NOT make, schedule or post any EPISODE until this line says ACTIVE.** Normal shorts only, exactly as before. Rules below apply only once ACTIVE.
 - **Ratio (when ACTIVE): 1 in every 6 posted videos is an EPISODE** (60–90 s original story). Never two episodes in a row. Count in posted.md (FORMAT `EPISODE`). The owner will later raise this to 2 in 6 — only change it when this line says so.
@@ -52,15 +59,16 @@ Hero still carries the gold crack and the PAYOFF ending still closes every video
 - Caption: first line "Rebuild Series, Episode N: <title with keyword>" (N = next episode number from posted.md), then 1–2 lines + a question. Hashtags as normal.
 - Render takes ~5–6 min (normal). Check one preview sheet with 6–8 stills across the beats before rendering.
 
-## Making a video
-1. Pick the next unused concept from `ideas.md` whose format differs from the previous post (or invent a new one in the same spirit). Check `posted.md` first.
-2. Write `specs/NNN_slug.py` (copy the structure of `specs/002_the_hill.py`): `DURATION`, `PAYOFF`, `HERO`, `CAPTION`, `SOUNDS`, `PANELS`.
-   Helpers live in `engine/core.py`: `ctx.figure(x, pose, facing, crack, gy, glow=ctx.payoff_glow)`, poses in `POSES`
-   (stand, proud, push, sit, slump, kneel, arms_up, reach, phone, lift, squat, lie), `walk(phase, speed)`, `climb(phase)`,
-   `pose_track`, `track`, props (`slope`, `stairs`, `boulder`, `wall`, `barbell`, `phone`, `bed`, `flag`, `text`),
-   effects (`spot`, `light`, `sparks`, `dust`, `impact`). Extend the engine when a concept needs a new prop or pose.
-3. Check ONE preview sheet: `python3 make.py specs/NNN_slug.py --stills 1.5 4 PAYOFF+1` and look at it. Fix clipping/overlaps.
-4. Render: `python3 make.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~30 s).
+## Making a video (3D)
+1. Pick the next unused concept from `ideas.md` (adapt it to a 3D scene type above; invent freely in the same spirit). Check `posted.md` first.
+2. Copy the closest example spec (`specs/011_one_step_a_day.py` or `specs/012_still_here.py` are the cleanest templates) to `specs/NNN_slug.py` and rewrite the scene.
+   A 3D spec defines `DUR` (10.0), `PAYOFF` (~7.6), `BLUR=(t0,t1)` (the speed-up window), `SOUNDS`, `CTA`, `CAPTION` and `frame(t, sub)` → `(image, overlay)`.
+   Building blocks (`engine3d/r3d.py`, `engine3d/race.py`): `Cam(pos, target)`, `room(img, cam)`, `box(...)` (steps, walls, beds, desks, doors), `barbell(...)`,
+   figures `joints(x, z, pose, facing)` + `draw_figure(img, emis, cam, J, hero=True/False, warm=, alpha=)`, poses `STAND, SIT, PHONE_STAND, ARMS_V`,
+   `pose_run(phase)`, `pose_phone_walk(phase)`, `mix(a, b, k)`; light `aura`, `floor_light`, `blob` (phone glow), `sparks`; `compose(img, emis)` (bloom);
+   text `spaced(...)`, `tag(d, x, y, text, gold)`, `chrome(d, t, CTA, PAYOFF)`. Speed-up = a scene-time function like `st(t)` (×4 inside BLUR).
+3. Check ONE preview sheet: `python3 make3d.py specs/NNN_slug.py --stills <6–7 times across the video>` and LOOK at it: figures visible and readable, nothing off-screen, tags fully on screen, text not overlapping, camera never empty for long. Fix and re-check once if needed.
+4. Render: `python3 make3d.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~1.5 min).
 
 ## Captions (SEO, VARIED, human — avoids "inauthentic/repetitive content" flags)
 There is NO fixed template. Every caption must read differently from the last ~10 in posted.md captions (see specs/).
@@ -147,5 +155,5 @@ Then write `insights.md` (overwrite): followers and views trend, top 5 and botto
 - At the start of every run, `git rm` any `videos/*.mp4` whose post is scheduled more than 7 days in the past (per posted.md). Keep specs and logs.
 
 ## Keeping credits low
-- One preview sheet per video, one render. No extra re-renders unless something is visibly broken.
+- One preview sheet per video (plus at most one re-check after a fix), one render. No extra re-renders unless something is visibly broken.
 - Reuse/extend engine helpers instead of writing new drawing code per video.
