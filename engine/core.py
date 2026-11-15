@@ -322,6 +322,27 @@ class Ctx:
         f = ImageFont.truetype(FONT_B, size)
         self.d.text((x, y), s, font=f, fill=col, anchor=anchor)
 
+    def hero_track(self, keys, glow=0.0, fade=0.22, **kw):
+        """Hero acted pose-to-pose. keys = [(t, pose, x, facing), ...]; pose "walk"/"run" moves from this
+        key's x to the next key's x. Named poses cross-dissolve over `fade` s (looks right for the drawn
+        character, fine for the stick figure). Returns the skeleton of the current pose."""
+        t = self.t
+        i = max([k for k, b in enumerate(keys) if b[0] <= t] or [0])
+        def one(j, a):
+            t0, pose, x, f = keys[j]
+            if pose in ("walk", "run"):
+                nx = keys[j + 1] if j + 1 < len(keys) else (t0 + 1, None, x, f)
+                xx = x + (nx[2] - x) * clamp((t - t0) / max(0.01, nx[0] - t0))
+                run = pose == "run"
+                return self.figure(xx, walk((t - t0) * (8.5 if run else 6.3), 2 if run else 1), f, crack=True, alpha=a, glow=glow, **kw)
+            return self.figure(x, pose, f, crack=True, alpha=a, glow=glow, **kw)
+        k = ramp(t, keys[i][0], keys[i][0] + fade) if i > 0 else 1.0
+        prev = keys[i - 1] if i > 0 else None
+        if k < 1 and prev and prev[1] not in ("walk", "run") and (prev[1], prev[2]) != (keys[i][1], keys[i][2]):
+            one(i - 1, 1 - k)
+            return one(i, k)
+        return one(i, 1.0)
+
     def subtitle(self, s, t0, t1, y=150, size=46, col=(225, 225, 230)):
         """Episode caption line: fades in at t0, out at t1, centred near the top of the panel."""
         if not (t0 <= self.t <= t1) or not s: return

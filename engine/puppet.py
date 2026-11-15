@@ -14,7 +14,7 @@ PDIR = os.path.join(HERE, "..", "assets", "poses")
 SPRITE = {
     "stand": "stand", "proud": "open_arms", "push": "push", "lift": "lift", "arms_up": "victory",
     "reach": "open_arms", "sit": "sit_hug", "slump": "sit_hug", "kneel": "kneel_pray",
-    "squat": "kneel_pray", "floor": "sit_hug", "lie": "bed_phone", "phone": "stand",
+    "squat": "lift", "floor": "sit_hug", "lie": "bed_phone", "phone": "stand",
 }
 STAND_PX = 330.0      # height of the standing drawing in the art
 H_PER_SC = 340.0      # on-screen standing height per unit figure scale
