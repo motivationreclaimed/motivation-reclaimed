@@ -122,7 +122,7 @@ Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN
 
 ## Animation service CTA (owner rule — the owner sells custom animations)
 - Compilations: (paused) the service CTA is built in (side panel + outro + caption) — always.
-- Shorts: about 1 in 8 shorts uses the service CTA as its on-screen `CTA`: "Want videos like this? Email mr@pixevon.com" (and the caption's last line before hashtags mentions it too). Never two in a row.
+- Shorts: about **1 in 5** videos carry the service mention — **subtle, never an advert** (owner rule). The on-screen CTA stays a normal engagement CTA; instead set `SERVICE = True` in the spec and call `chrome(d, t, CTA, PAYOFF, service=SERVICE)`: in the last ~1.5 s the watermark quietly becomes "ANIMATIONS FOR BRANDS · MR@PIXEVON.COM". In the caption add one low-key last line before the hashtags, varied, e.g. "Animation by Pixevon — mr@pixevon.com" / "We animate for brands too: mr@pixevon.com". Never two in a row; log `SERVICE` in the posted.md concept line.
 
 ## Owner's cartoon character (pending owner approval — keep OFF until this line says ON)
 - Status: **OFF — owner reverted to the original white stick figure (15 Nov 2026).** Do not use `CHARACTER` or `FACES`.

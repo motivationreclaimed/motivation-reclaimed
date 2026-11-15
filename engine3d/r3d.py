@@ -80,10 +80,13 @@ def compose(img, emis):
     bloom = cv2.resize(cv2.GaussianBlur(small, (0, 0), 5) * 0.9 + cv2.GaussianBlur(small, (0, 0), 16) * 0.7, (W, H))
     return img + emis * 0.35 + bloom
 
-def chrome(d, t, cta, payoff):
+def chrome(d, t, cta, payoff, service=False):
     spaced(d, (W / 2, 335), cta.upper(), 30, (255, 205, 130) if t >= payoff else (205, 205, 210), sp=5)
     d.line([(W / 2 - 300, 370), (W / 2 + 300, 370)], fill=(60, 60, 66), width=1)
-    spaced(d, (W / 2, 1440), "MOTIVATION RECLAIMED", 22, (90, 90, 96), sp=6)
+    if service and t >= payoff + 0.8:   # quiet credit line, only at the very end
+        spaced(d, (W / 2, 1440), "ANIMATIONS FOR BRANDS · MR@PIXEVON.COM", 22, (150, 130, 95), sp=5)
+    else:
+        spaced(d, (W / 2, 1440), "MOTIVATION RECLAIMED", 22, (90, 90, 96), sp=6)
 
 def render(out, frame_fn, dur, payoff, sounds, blur=None):
     """frame_fn(t, sub) -> (float img, overlay_fn(PIL draw))"""
