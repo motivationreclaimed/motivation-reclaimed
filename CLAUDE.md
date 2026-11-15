@@ -3,12 +3,20 @@
 Faceless motivation channel. Instagram / TikTok / YouTube Shorts, all posted through Publer via the Zapier connector.
 Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @motivation_reclaimed (YouTube).
 
-## STYLE: 3D "GOLD LIGHT" (owner-approved 15 Nov 2026 — every NEW video uses this; the old 2D panel engine is retired, do not use make.py)
+## STYLES — RANDOMISE between three (owner, 15 Nov 2026)
+Every new video uses ONE of these three styles, picked at random (roughly a third each); never the same style 3 times in a row. Record it in posted.md as the first word of FORMAT (e.g. `TOON3D · CLIMB`, `GOLD3D · RACE`, `STICK2D · SPLIT 2`).
+- **TOON3D — the dark 3D gold world with the cartoon cast** (owner: "perfect"). Black background, black/dark sets, moving camera, reflections, gold glow — but the people are cartoon characters drawn with `draw_toon()` (engine3d/r3d.py): hero look `"hero"` (charcoal hoodie, gold crack, gold light behind him), others `"grey"`, `"teal"`, `"coral"`, `"mustard"` (with `prop="phone"` for scrollers, `bright=0.85`). Templates: `templates/toon3d_stairs.py` (cleanest) and `templates/toon3d_race.py`. Cartoon poses available (engine3d/toon.py): `STAND, walk(phase, amp), run(phase), PHONE, SIT, SIT_SAD, ARMS_UP, HOLD, WAVE`. If a story needs anything else (squats, lifting, pull-ups, climbing a ladder, lying down…) use GOLD3D or STICK2D for that video instead — never force a pose that doesn't exist.
+- **GOLD3D — the dark 3D gold world with the ivory mannequin figures** (the section below). Ready examples: specs/010–012.
+- **STICK2D — the original white stick-figure panels** (`python3 make.py specs/NNN_slug.py`, see "STICK2D details" below; examples specs/002–009).
+Rotate topics (money/discipline), formats and CTAs as before, independently of the style.
+
+## 3D "GOLD LIGHT" world (used by TOON3D and GOLD3D)
 - A dark matte 3D world (reflective floor, fog, distant light strips), a camera that MOVES (push-in, follow, fly-through, slow orbit at the end).
 - The HERO is the ivory figure with glowing gold kintsugi cracks — the only warm light source; he lights the floor and the people near him. Everyone else = matte grey 3D figures (often on their phones: blue screen glow).
 - Each video is a small story with stakes, like the reference channels the owner loves: a race, a climb, a gym that empties, a wall, a split timeline… Something must happen every 1–2 s.
 - Tools of the style (use most of them every video): one short HOOK line in the first second (≤ 5 words, e.g. "SAME 24 HOURS.", "EVERYONE WANTS THE TOP."), floating labels over figures, little speech TAGS ("let's go.", "maybe monday."), counters (DAY / REPS / STEPS), a SPEED-UP section (×4, motion blur, counter racing) to show time passing, and the gold PAYOFF (burst, sparks, orbit, one short closing line like "ONE STEP A DAY.").
 - Text is Liberation Serif, letter-spaced caps (built into the helpers). Calm tone, no shouting.
+- (STICK2D keeps its own original rules — see "STICK2D details".)
 - **Ready to post (rendered, committed):** `specs/010_which_lane.py`, `011_one_step_a_day.py`, `012_still_here.py` with `videos/010_which_lane.mp4`, `011_…`, `012_…`. The next run posts these three FIRST (they count as 3 of its videos), then makes the rest new.
 
 ## Brand rules (never break)
@@ -20,7 +28,7 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Every video ends with the PAYOFF at `PAYOFF` (~7.6 s): gold flash (automatic), hero raises arms (`ARMS_V`), aura/floor light grow, `sparks`, camera orbits or pulls back, one short gold closing line; the sound logo plays automatically.
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
-- **Quality:** 1080×1920, 30 fps, CRF 18, ≤10 Mbps, preset medium, tune film — never lower it to save time. The engine keeps grain LIGHT and adds gentle sharpening so videos survive Instagram/TikTok/YouTube re-compression (heavy grain turns into blotches there) — don't add extra grain/noise or blur effects.
+- **Quality (all styles):** 1080×1920, 30 fps, CRF 18, ≤10 Mbps, preset medium, tune film — never lower it to save time. The engine keeps grain LIGHT and adds gentle sharpening so videos survive Instagram/TikTok/YouTube re-compression (heavy grain turns into blotches there) — don't add extra grain/noise or blur effects.
 - **Length: 8–10 s.** (EPISODES are 60–90 s but PAUSED — see below.) Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
@@ -70,8 +78,24 @@ Also vary camera moves, which counter (DAY / REPS / STEPS / HOURS), the speed-up
    `pose_run(phase)`, `pose_phone_walk(phase)`, `mix(a, b, k)`; light `aura`, `floor_light`, `blob` (phone glow), `sparks`; `compose(img, emis)` (bloom);
    text `spaced(...)`, `tag(d, x, y, text, gold)`, `chrome(d, t, CTA, PAYOFF)`. Speed-up = a scene-time function like `st(t)` (×4 inside BLUR).
 3. Check ONE preview sheet: `python3 make3d.py specs/NNN_slug.py --stills <6–7 times across the video>` and LOOK at it: figures visible and readable, nothing off-screen, tags fully on screen, text not overlapping, camera never empty for long. Fix and re-check once if needed.
-4. Render: `python3 make3d.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~1.5 min).
+4. Render: `python3 make3d.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~1.5 min). Then the QUALITY GATE (below) — mandatory.
 5. **Variety self-check before posting (every run):** compare this run's videos with the last ~10 in specs/ — scene type, hook, tags, closing line, camera path, payoff time, speed-up yes/no, topic (MONEY vs discipline). If any two look like the same template, rewrite one before posting. Put a one-line "Variety check: …" in the run report so the owner can see it.
+
+## STICK2D details (original white stick figures)
+- Spec structure like `specs/004_the_alarm.py` / `specs/008_the_crowd.py`: `DURATION`, `PAYOFF`, `HERO`, `CTA`, `CAPTION`, `SOUNDS`, `PANELS` (1–4 stacked panels, one-word UPPERCASE labels). Formats: SPLIT 2, STORY, PROGRESSION 4, TRIO 3 (max 1 in 4 of the STICK2D videos), COUNTER, REVERSE.
+- Helpers in `engine/core.py`: `ctx.figure(x, pose, facing, crack, gy, glow=ctx.payoff_glow)`, poses (stand, proud, push, sit, slump, kneel, arms_up, reach, phone, lift, squat, lie), `walk`, `climb`, `pose_track`, `track`, props (`slope`, `stairs`, `boulder`, `wall`, `barbell`, `phone`, `bed`, `flag`, `text`), effects (`spot`, `light`, `sparks`, `dust`, `impact`).
+- The engine draws the CTA band, safe-zone layout, watermark and payoff automatically. No hook text in STICK2D — labels only. Never set `CHARACTER`/`FACES`.
+- Preview: `python3 make.py specs/NNN_slug.py --stills 1.5 4 PAYOFF+1`; render: `python3 make.py specs/NNN_slug.py`.
+
+## QUALITY GATE — no bugged video is ever posted (owner requirement)
+After rendering EVERY video (any style), run `python3 tools/qa.py videos/NNN_slug.mp4` and LOOK at every frame of `previews/NNN_slug_qa.png` (a frame every 0.25 s). The video may only be posted if ALL of these hold:
+- No automatic warnings (frozen spans, black frames); 1080×1920; 8–10 s.
+- The hero is visible and readable in every beat; the camera is never empty / pointing at nothing (cut instead of flying through emptiness).
+- No figure clipped by the frame edge at an important moment, no figures overlapping each other's faces, no limb through a face, no figure floating or sinking into the floor/props, no hands missing the object they hold (bar, jar, bag, phone).
+- No pose glitches between frames (sudden wrong pose, flicker, sideways jumps), walking/running looks like a cycle.
+- All text fully on screen, readable, not overlapping other text or speech tags; speech tags point at the right person; the CTA is correct.
+- Glow never washes a character out to a white/beige blob; the payoff reads clearly.
+If something fails: fix it and re-render, then run the gate again (max 2 fix rounds). If it still isn't clean, DO NOT post it — drop that concept and make a simpler video from a proven template instead (specs/010–012, templates/toon3d_*.py, specs/002–009). Write one line per video in the run report: "QA: passed (checked N frames)" or what was fixed.
 
 ## Captions (SEO, VARIED, human — avoids "inauthentic/repetitive content" flags)
 There is NO fixed template. Every caption must read differently from the last ~10 in posted.md captions (see specs/).
