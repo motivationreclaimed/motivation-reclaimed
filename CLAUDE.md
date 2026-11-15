@@ -17,7 +17,7 @@ Rotate topics (money/discipline), formats and CTAs as before, independently of t
 - Tools of the style (use most of them every video): one short HOOK line in the first second (≤ 5 words, e.g. "SAME 24 HOURS.", "EVERYONE WANTS THE TOP."), floating labels over figures, little speech TAGS ("let's go.", "maybe monday."), counters (DAY / REPS / STEPS), a SPEED-UP section (×4, motion blur, counter racing) to show time passing, and the gold PAYOFF (burst, sparks, orbit, one short closing line like "ONE STEP A DAY.").
 - Text is Liberation Serif, letter-spaced caps (built into the helpers). Calm tone, no shouting.
 - (STICK2D keeps its own original rules — see "STICK2D details".)
-- **Ready to post (rendered, committed):** `specs/010_which_lane.py`, `011_one_step_a_day.py`, `012_still_here.py` with `videos/010_which_lane.mp4`, `011_…`, `012_…`. The next run posts these three FIRST (they count as 3 of its videos), then makes the rest new.
+- **Ready to post (rendered, committed):** `specs/010_which_lane.py`, `011_one_step_a_day.py`, `012_still_here.py` (all GOLD3D) with their videos. The next run includes these three as 3 of its videos but **spreads them out, randomised with the new TOON3D and STICK2D videos it makes** (never two GOLD3D in a row; e.g. TOON3D, GOLD3D, STICK2D, GOLD3D, TOON3D, STICK2D, GOLD3D). Run them through the QUALITY GATE too.
 
 ## Brand rules (never break)
 - Times New Roman–style serif (Liberation Serif) for all text — never mono/sans.
@@ -28,7 +28,7 @@ Rotate topics (money/discipline), formats and CTAs as before, independently of t
 - Every video ends with the PAYOFF at `PAYOFF` (~7.6 s): gold flash (automatic), hero raises arms (`ARMS_V`), aura/floor light grow, `sparks`, camera orbits or pulls back, one short gold closing line; the sound logo plays automatically.
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
-- **Quality (all styles):** 1080×1920, 30 fps, CRF 18, ≤10 Mbps, preset medium, tune film — never lower it to save time. The engine keeps grain LIGHT and adds gentle sharpening so videos survive Instagram/TikTok/YouTube re-compression (heavy grain turns into blotches there) — don't add extra grain/noise or blur effects.
+- **Quality (all styles):** 1080×1920, 30 fps, CRF 16, up to 16 Mbps (≈8–15 MB per 10 s short), preset medium, tune film, near-lossless intermediates — built into the engines; never lower it to save time. The engine keeps grain LIGHT and adds gentle sharpening so videos survive Instagram/TikTok/YouTube re-compression (heavy grain turns into blotches there) — don't add extra grain/noise or blur effects.
 - **Length: 8–10 s.** (EPISODES are 60–90 s but PAUSED — see below.) Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 

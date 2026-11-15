@@ -531,7 +531,7 @@ def render(spec, out, workers=2):
     sfx.build(spec, wav)
     tmp_out = out + ".tmp.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-i", wav,
-                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-maxrate", ("10M" if spec.DURATION <= 30 else "7M"), "-bufsize", ("20M" if spec.DURATION <= 30 else "14M"), "-preset", "medium", "-tune", "film", "-profile:v", "high",
+                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "16", "-maxrate", ("16M" if spec.DURATION <= 30 else "7M"), "-bufsize", ("32M" if spec.DURATION <= 30 else "14M"), "-preset", "medium", "-tune", "film", "-profile:v", "high",
                     "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k", "-shortest", tmp_out], check=True)
     os.replace(tmp_out, out)
     return out
@@ -548,7 +548,7 @@ def _render_chunk(args):
     spec_path, a, b, out = args
     spec = load_spec(spec_path)
     p = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
-                          "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-crf", "18", "-preset", "veryfast",
+                          "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-crf", "8", "-preset", "veryfast",   # near-lossless intermediate
                           "-pix_fmt", "yuv420p", out + ".tmp.mp4"], stdin=subprocess.PIPE)
     for fi in range(a, b):
         p.stdin.write(render_frame(spec, fi).tobytes())

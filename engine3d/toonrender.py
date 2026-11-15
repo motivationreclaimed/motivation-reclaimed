@@ -9,7 +9,7 @@ W, H, FPS = 1080, 1920, 30
 def render(out, frame_fn, dur, payoff, sounds, music_level=0.16):
     tmpv = out + ".v.mp4"
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                           "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "film",
+                           "-c:v", "libx264", "-crf", "16", "-maxrate", "16M", "-bufsize", "32M", "-preset", "medium", "-tune", "film",
                            "-pix_fmt", "yuv420p", tmpv], stdin=subprocess.PIPE)
     for i in range(int(dur * FPS)):
         ff.stdin.write(np.ascontiguousarray(frame_fn(i / FPS)).tobytes())

@@ -298,7 +298,7 @@ def main(out):
     yy, xx = None, None
     tmpv = out + ".video.mp4"
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                           "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "film",
+                           "-c:v", "libx264", "-crf", "16", "-maxrate", "16M", "-bufsize", "32M", "-preset", "medium", "-tune", "film",
                            "-pix_fmt", "yuv420p", tmpv], stdin=subprocess.PIPE)
     n = int(DUR * FPS)
     for i in range(n):
