@@ -38,7 +38,7 @@ Formats (record the format in posted.md):
 Also vary: props, settings (hill, stairs, gym, bed, rain, road, crowd, door), pacing, which panel is the hero, and sound events.
 Hero still carries the gold crack and the PAYOFF ending still closes every video — that is the signature that stays constant.
 
-## EPISODES — **PAUSED pending owner approval: do NOT make, schedule or post any EPISODE until this line says ACTIVE.** Normal shorts only, exactly as before. Rules below apply only once ACTIVE.
+## EPISODES — **OFF (owner, 15 Nov 2026): no long videos for now — maybe in 2–3 months. Do NOT make, schedule or post any EPISODE until this line says ACTIVE.** Normal shorts only, exactly as before. Rules below apply only once ACTIVE.
 - **Ratio (when ACTIVE): 1 in every 6 posted videos is an EPISODE** (60–90 s original story). Never two episodes in a row. Count in posted.md (FORMAT `EPISODE`). The owner will later raise this to 2 in 6 — only change it when this line says so.
 - Posted to all three platforms like any short (same upload_media + create_post, same slots). It counts as one of the run's videos.
 - What an episode is: ONE continuous story of the Reclaimed man rebuilding one part of his life (phone at night, gym after work, reading instead of scrolling, Sunday reset, money, a comeback after a setback), carrying ONE practical idea viewers can use tonight.
@@ -117,7 +117,7 @@ Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN
 - Shorts: about 1 in 8 shorts uses the service CTA as its on-screen `CTA`: "Want videos like this? Email mr@pixevon.com" (and the caption's last line before hashtags mentions it too). Never two in a row.
 
 ## Owner's cartoon character (pending owner approval — keep OFF until this line says ON)
-- Status: **OFF**. The face-only version was rejected (do not use `FACES`).
+- Status: **OFF — owner reverted to the original white stick figure (15 Nov 2026).** Do not use `CHARACTER` or `FACES`.
 - When ON: set `CHARACTER = True` in every spec; the hero (crack=True) is drawn with the owner's full-body drawings from `assets/poses/*.png` (stand, walk, run, sit_hug, kneel_pray, push, lift, bed_phone, victory, open_arms) — no cut-out rig. Engine pose names map to drawings automatically (lie→bed_phone which includes its own bed, so don't also draw `ctx.bed` under him; push→push; lift→lift WITH its own barbell, so don't draw `ctx.barbell`; arms_up→victory; proud→open_arms; slump/sit/floor→sit_hug; kneel→kneel_pray; squat→lift (exercise reads as lifting); walking→walk/stand two-pose cycle at ~6.3 rad/s). He reads best in 1–2 panel formats and episodes.
 - **Only use the character when EVERY action the hero does in that video is one of the 10 drawings** (standing, walking, running, sitting hugging knees, kneeling, pushing, lifting a barbell, lying in bed with phone, arms up, open arms). If the story needs any action he has no drawing for (knocking, climbing stairs/hill, holding a phone while standing, reading, sitting at a desk, reaching, falling…), make that whole video with the stick figure instead — never show him frozen in the wrong pose. Other people are always regular grey stick figures. New drawings from the owner = new actions he can do.
 
