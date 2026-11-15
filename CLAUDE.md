@@ -80,12 +80,19 @@ There is NO fixed template. Every caption must read differently from the last ~1
 Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
 Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
 
-- **Until 26 Nov 2026 (trial):** 2 posts/day at 13:00 and 20:00 UK, all three platforms. Each run schedules 7 videos.
-- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 20:00 UK, all three platforms.
-  - Monday run: 3 videos → Mon, Tue, Wed 20:00.  Thursday run: 2 videos → Thu, Sat 20:00.
-  - That is ~22 videos ≈ 88 tasks/month, leaving a small buffer under 100.
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 12:00 and 21:00 UK (UK lunch + UK evening/US afternoon), all three platforms. Each run schedules 7 videos. (Posts already scheduled before 15 Nov keep their old 13:00/20:00 times — just continue after the last one.)
+- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 21:00 UK, all three platforms.
+  - Monday run: 3 videos → Mon, Tue, Wed 21:00.  Thursday run: 2 videos → Thu, Sat 21:00.
+  - That is ~22 videos ≈ 88 tasks/month + 4 tasks for the monthly analytics check ≈ 92, under 100.
   - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
 - Never schedule into the past or before an already-scheduled post (check posted.md). Publer free allows max 10 pending posts per account.
+
+## Monthly analytics check (separate scheduled task, 1st of each month)
+Uses exactly 2 Zapier calls (4 tasks) — nothing else:
+1. Publer `generate_top_posts` (selected_api `App232404CLIAPI`, workspace `6af6583ee39d7f4bffa1aa3e`, date_from/date_to = last month, sort_by `engagement_rate`).
+2. Publer `find_analytics` (tool `publer_find_analytics_by_date_range`, same workspace, from/to = last month, chart_ids `["followers","video_views","engagement_rate"]`).
+Then write `insights.md` (overwrite): followers and views trend, top 5 and bottom 5 posts matched to their FORMAT/series/topic via posted.md, and 3–5 plain rules for next month ("more STORY comebacks", "fewer TRIO", "phone/screen-time topics win"). Commit + push.
+**Video runs: read `insights.md` first (if present) and lean towards what it says works**, while still obeying the VARIETY rules.
 
 ## Zapier budget rules (important on the free plan)
 - Do NOT call inspect / discover / list / read actions on Zapier during normal runs — every successful call burns 2 tasks. All IDs needed are in this file.
@@ -97,7 +104,7 @@ Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (u
   `NNN | slug | FORMAT | PENDING (zapier unavailable) | planned_slot | concept` (planned_slot = the ISO time it should have gone out).
 - Say so clearly in the run report. Do not burn retries in a loop — the separate **retry task** (Mon & Thu 14:17 and 18:17 UK) will post them.
 - Retry task behaviour: if posted.md has NO `PENDING` lines → stop immediately, do nothing else. Otherwise, for each PENDING video:
-  upload_media + create_post as normal; if its planned slot is already in the past, schedule it at the next free 13:00/20:00 slot
+  upload_media + create_post as normal; if its planned slot is already in the past, schedule it at the next free 12:00/21:00 slot (21:00 only on the free plan)
   after the last scheduled post (never in the past); replace PENDING with the real scheduled_at; commit + push.
   If Zapier is still down, leave them PENDING for the next retry.
 
