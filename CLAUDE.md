@@ -16,6 +16,14 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - **Length: 8–10 s.** Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
+## POSITIONING — built to earn from brand deals (owner's core goal)
+The channel is NOT a generic quote page. It is **"the calm discipline channel": habits, focus, routines and rebuilding yourself** — an audience of adults (roughly 18–35) who buy apps, books, journals, fitness and productivity tools.
+- **Every concept must carry one specific, practical idea** viewers can use today (a habit, a routine, a focus trick, a mindset shift with an action) — never a vague quote. Favour adult-life topics that sponsors care about: phone/screen time, morning routine, gym consistency, reading, focus/deep work, sleep, money discipline, starting a business, comebacks after failure. Avoid kid/school-meme topics.
+- **The Reclaimed man is a character, not a mascot:** same gold-cracked figure, an ongoing story of someone rebuilding his life. Some videos can continue his arc (his mornings, his setbacks, his small wins) so viewers follow HIM — this is what makes a faceless channel trustworthy to brands.
+- **Recurring series** (rotate; name the series as the caption's first words about 1 in 3 videos, e.g. "Rebuild Series:", "Day 1 vs Day 365:", "One Habit:", "Quiet Wins:"). Series make people follow and come back.
+- **Save-worthy over pretty:** each video should be something a viewer wants to save or send to a friend.
+- Engagement > followers: CTAs (see brand rules), comment-bait questions people can genuinely answer, and the auto first comment below.
+
 ## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
 Rotate formats. Never use the same format twice in a row, and use the classic "3 labelled panels" in at most 1 of every 4 videos.
 Formats (record the format in posted.md):
@@ -63,6 +71,7 @@ There is NO fixed template. Every caption must read differently from the last ~1
    - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
    - NEVER use the abyanhammad@gmail.com / Unbreachd Studios connection — that is a different brand.
    - If a call times out, do NOT retry blindly (it may have gone through) — note it in the report instead.
+   - **Auto first comment (engagement):** in create_post also set `auto_comment_enabled: true` and `auto_comment_text: ["<one short, genuine question tied to the video that's easy to answer, e.g. 'What's the one habit you're rebuilding this month?'>"]`. Vary it every time. If create_post fails because of this option (plan limit / parameter error), immediately retry the SAME call once without the auto-comment fields (failed calls cost no Zapier tasks) and note it in posted.md so future runs skip it.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
 
 ## Schedule (date-based — check today's date first)
