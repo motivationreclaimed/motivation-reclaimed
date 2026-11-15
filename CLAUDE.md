@@ -13,7 +13,7 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
 - **Quality:** final encode is high quality (CRF 18, ≤10 Mbps, preset medium) — never lower it to save time.
-- **Length: 8–10 s.** Do not change unless the owner updates this line.
+- **Length: 8–10 s** for normal shorts; **60–90 s for EPISODES** (see EPISODES below). Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
 ## POSITIONING — built to earn from brand deals (owner's core goal)
@@ -37,6 +37,20 @@ Formats (record the format in posted.md):
 - **REVERSE** — starts at the gold payoff, then shows how he got there.
 Also vary: props, settings (hill, stairs, gym, bed, rain, road, crowd, door), pacing, which panel is the hero, and sound events.
 Hero still carries the gold crack and the PAYOFF ending still closes every video — that is the signature that stays constant.
+
+## EPISODES (owner rule — ACTIVE now)
+- **Ratio: 1 in every 6 posted videos is an EPISODE** (60–90 s original story). Never two episodes in a row. Count in posted.md (FORMAT `EPISODE`). The owner will later raise this to 2 in 6 — only change it when this line says so.
+- Posted to all three platforms like any short (same upload_media + create_post, same slots). It counts as one of the run's videos.
+- What an episode is: ONE continuous story of the Reclaimed man rebuilding one part of his life (phone at night, gym after work, reading instead of scrolling, Sunday reset, money, a comeback after a setback), carrying ONE practical idea viewers can use tonight.
+- **Hook + re-hook (non-negotiable — people must not scroll):**
+  - First second: a striking subtitle line + something already moving/counting (e.g. "He checked his phone 96 times yesterday." with a counter racing up).
+  - Every 6–10 s a new beat: label changes (THE RULE / NIGHT 1 / DAY 4 / DAY 30…), a new subtitle that makes viewers want the next one ("On day four he nearly gave in."), a sound cue (whoosh/hit) and something visibly new (prop, light, counter, bar).
+  - Include a setback in the middle (nearly quits) before the turn — that's the tension that holds viewers.
+  - End on the gold PAYOFF with the practical rule spelled out in the last subtitle + CTA.
+- Build it by copying `templates/episode_template.py` (working 70 s example: BEATS list, `beat()`, `ctx.subtitle()`, label per beat). Write a NEW story each time — never re-post the template's phone story.
+- Subtitles: short plain sentences (≤ 9 words), third person ("he"), calm. Labels stay UPPERCASE one or two words.
+- Caption: first line "Rebuild Series, Episode N: <title with keyword>" (N = next episode number from posted.md), then 1–2 lines + a question. Hashtags as normal.
+- Render takes ~5–6 min (normal). Check one preview sheet with 6–8 stills across the beats before rendering.
 
 ## Making a video
 1. Pick the next unused concept from `ideas.md` whose format differs from the previous post (or invent a new one in the same spirit). Check `posted.md` first.
@@ -102,9 +116,9 @@ Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN
 - Compilations: (paused) the service CTA is built in (side panel + outro + caption) — always.
 - Shorts: about 1 in 8 shorts uses the service CTA as its on-screen `CTA`: "Want videos like this? Email mr@pixevon.com" (and the caption's last line before hashtags mentions it too). Never two in a row.
 
-## Owner's cartoon face (pending owner approval — keep OFF until this line says ON)
-- Status: **OFF**. Face images live in `assets/faces/*.png` (neutral, calm, smile, smirk, focus, strain, tired, think, shock, shout, facepalm, shrug, awkward, bored, coffee, headphones, pizza, neutral2, smirk2, think2).
-- When ON: set `FACES = True` in every spec; the hero (crack=True) gets the owner's face, other figures stay plain. Choose expressions with `ctx.face_expr = "<name>"` before drawing the hero (e.g. tired → focus/strain → calm/smile at the payoff; None = neutral, smile at payoff).
+## Owner's cartoon character (pending owner approval — keep OFF until this line says ON)
+- Status: **OFF**. The face-only version was rejected (do not use `FACES`).
+- When ON: set `CHARACTER = True` in every spec; the hero (crack=True) is drawn with the owner's full-body drawings from `assets/poses/*.png` (stand, walk, run, sit_hug, kneel_pray, push, lift, bed_phone, victory, open_arms) — no cut-out rig. Engine pose names map to drawings automatically (lie→bed_phone which includes its own bed, so don't also draw `ctx.bed` under him; push→push; lift→lift WITH its own barbell, so don't draw `ctx.barbell`; arms_up→victory; proud→open_arms; slump/sit/floor→sit_hug; kneel/squat→kneel_pray; walking→walk/stand two-pose cycle at ~6.3 rad/s). He reads best in 1–2 panel formats and episodes.
 
 ## Monthly analytics check (separate scheduled task, 1st of each month)
 Uses exactly 2 Zapier calls (4 tasks) — nothing else:

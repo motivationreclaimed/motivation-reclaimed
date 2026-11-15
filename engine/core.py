@@ -32,6 +32,11 @@ def ease_in(u): u = clamp(u); return u ** 3
 def ease_io(u): u = clamp(u); return u * u * (3 - 2 * u)
 def ramp(t, a, b): return clamp((t - a) / (b - a)) if b > a else float(t >= a)
 
+def beat(t, beats):
+    """Episodes: beats = [(start, ...), ...] sorted. Returns (index, local time in beat)."""
+    i = max([k for k, b in enumerate(beats) if b[0] <= t] or [0])
+    return i, t - beats[i][0]
+
 def track(t, keys, ease=ease_io):
     """Interpolate a number over [(time, value), ...]."""
     if t <= keys[0][0]: return keys[0][1]
@@ -123,7 +128,6 @@ class Ctx:
     scale = 0.8  # brand character size (fits 3-4 stacked panels)
 
     puppet_on = False  # set per spec via CHARACTER = True (owner's full cartoon character as the hero)
-    puppet_fist = False
     face_on = False   # set per spec via FACES = True (owner's cartoon face on the hero)
     face_expr = None  # scene may set ctx.face_expr = 'strain' etc. before drawing the hero
 
@@ -132,15 +136,16 @@ class Ctx:
         that fills with gold from the head down (0 = empty break, 1 = full gold)."""
         sc = scale or self.scale
         gy = self.ground if gy is None else gy
+        pose_in = pose
         if isinstance(pose, str): pose = POSES[pose]
         s = skeleton(x, gy, pose, facing, sc)
         low = max(s["fL"][1], s["fR"][1], s["kL"][1], s["kR"][1]) - gy - 4
         if clamp and low > 0:  # never sink below the ground mid-transition
             s = {k: ((v[0], v[1] - low) if isinstance(v, tuple) else v) for k, v in s.items()}
         s["sc"] = sc
-        if self.puppet_on and crack:
+        if self.puppet_on and crack:   # owner's cartoon character replaces the stick hero
             from . import puppet
-            return puppet.draw(self, x, gy, pose, facing, sc, glow, fist=self.puppet_fist)
+            return puppet.draw(self, x, gy, pose_in, facing, sc, glow, alpha, POSES, s)
         c = tuple(int(lerp(12, ch, alpha)) for ch in col)
         w = int(15 * max(0.75, sc))
         RH = R_HEAD * sc
@@ -151,9 +156,6 @@ class Ctx:
         seg(s["hip"], s["kL"], s["fL"]); seg(s["sh"], s["eL"], s["hL"])
         seg(s["hip"], s["neck"]); seg(s["hip"], s["kR"], s["fR"]); seg(s["sh"], s["eR"], s["hR"])
         hx, hy = s["head"]
-        if self.puppet_on and crack:   # owner's cartoon character replaces the stick hero
-            from . import puppet
-            return puppet.draw(self, x, gy, pose, facing, sc, glow, fist=self.puppet_fist)
         use_face = face or (self.face_on and crack)
         if use_face:
             expr = face if isinstance(face, str) else (self.face_expr or ("smile" if glow > 0.35 else "neutral"))
@@ -319,6 +321,16 @@ class Ctx:
     def text(self, x, y, s, size=30, col=(200, 200, 205), anchor="mm"):
         f = ImageFont.truetype(FONT_B, size)
         self.d.text((x, y), s, font=f, fill=col, anchor=anchor)
+
+    def subtitle(self, s, t0, t1, y=150, size=46, col=(225, 225, 230)):
+        """Episode caption line: fades in at t0, out at t1, centred near the top of the panel."""
+        if not (t0 <= self.t <= t1) or not s: return
+        a = min(ramp(self.t, t0, t0 + 0.3), 1 - ramp(self.t, t1 - 0.3, t1))
+        c = tuple(int(12 + (v - 12) * a) for v in col)
+        f = ImageFont.truetype(FONT_B, size)
+        while f.getlength(s) > self.w - 120 and size > 28:
+            size -= 2; f = ImageFont.truetype(FONT_B, size)
+        self.d.text((self.w / 2, y + (1 - a) * 10), s, font=f, fill=c, anchor="mm")
 
     # --- effects
     def sparks(self, x, y, t0, n=40, spread=(-170, -10), speed=(200, 700), life=0.7, col=(255, 210, 140), seed=0):
