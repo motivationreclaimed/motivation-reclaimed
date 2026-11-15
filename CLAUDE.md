@@ -87,6 +87,25 @@ Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (u
   - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
 - Never schedule into the past or before an already-scheduled post (check posted.md). Publer free allows max 10 pending posts per account.
 
+## Compilations (owner rule) — `compile.py`
+Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN | date` and `WIDE | up to NNN | date`.
+- **TALL (~3 min, 9:16, all three platforms)** — when ≥ 18 shorts have been posted since the last TALL (≈3 min of video), make ONE of this run's slots a tall compilation of those shorts (it counts as one of the run's posts). Long enough for TikTok Creator Rewards (>1 min).
+- **WIDE (~10 min, 16:9, YouTube ONLY — account `6af65afdd185a8df145dea8a`)** — when ≥ 60 shorts have been posted since the last WIDE, make ONE slot a wide compilation of those shorts.
+- How: old video files may already be deleted, so re-render the needed shorts from their specs into a temp folder (`python3 make.py specs/NNN_x.py` then move the file out of videos/ — do NOT commit these re-renders), then
+  `python3 compile.py tall "<N> Lessons on <theme>" videos/cNNN_tall.mp4 <clips…>` or `python3 compile.py wide "<N> Lessons on <theme>" videos/cNNN_wide.mp4 <clips…>`.
+  Wide also writes `<name>_chapters.txt` — put those chapter lines in the YouTube caption (description) after the first line.
+- File must be under 95 MB (GitHub raw limit). If larger, re-encode with a lower `-maxrate` before pushing.
+- Caption: first line is the title (e.g. "10 Minutes of Discipline Lessons | Motivation Reclaimed"), a short description, chapters (wide), and ALWAYS the service line: "Want animations like these for your brand or channel? Email mr@pixevon.com". Then 3–5 hashtags.
+- Log in posted.md with FORMAT `COMPILATION TALL` / `COMPILATION WIDE`, then update compilations.md. Commit + push.
+
+## Animation service CTA (owner rule — the owner sells custom animations)
+- Compilations: the service CTA is built in (side panel + outro + caption) — always.
+- Shorts: about 1 in 8 shorts uses the service CTA as its on-screen `CTA`: "Want videos like this? Email mr@pixevon.com" (and the caption's last line before hashtags mentions it too). Never two in a row.
+
+## Owner's cartoon face (pending owner approval — keep OFF until this line says ON)
+- Status: **OFF**. Face images live in `assets/faces/*.png` (neutral, calm, smile, smirk, focus, strain, tired, think, shock, shout, facepalm, shrug, awkward, bored, coffee, headphones, pizza, neutral2, smirk2, think2).
+- When ON: set `FACES = True` in every spec; the hero (crack=True) gets the owner's face, other figures stay plain. Choose expressions with `ctx.face_expr = "<name>"` before drawing the hero (e.g. tired → focus/strain → calm/smile at the payoff; None = neutral, smile at payoff).
+
 ## Monthly analytics check (separate scheduled task, 1st of each month)
 Uses exactly 2 Zapier calls (4 tasks) — nothing else:
 1. Publer `generate_top_posts` (selected_api `App232404CLIAPI`, workspace `6af6583ee39d7f4bffa1aa3e`, date_from/date_to = last month, sort_by `engagement_rate`).

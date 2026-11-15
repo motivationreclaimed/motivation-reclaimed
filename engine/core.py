@@ -122,7 +122,10 @@ class Ctx:
     # --- figure
     scale = 0.8  # brand character size (fits 3-4 stacked panels)
 
-    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None, fill=1.0, clamp=True):
+    face_on = False   # set per spec via FACES = True (owner's cartoon face on the hero)
+    face_expr = None  # scene may set ctx.face_expr = 'strain' etc. before drawing the hero
+
+    def figure(self, x, pose, facing=1, crack=False, gy=None, col=INK, alpha=1.0, glow=0.0, scale=None, fill=1.0, clamp=True, face=None):
         """crack=True draws the gold kintsugi crack; fill<1 shows it as a dark break
         that fills with gold from the head down (0 = empty break, 1 = full gold)."""
         sc = scale or self.scale
@@ -143,17 +146,43 @@ class Ctx:
         seg(s["hip"], s["kL"], s["fL"]); seg(s["sh"], s["eL"], s["hL"])
         seg(s["hip"], s["neck"]); seg(s["hip"], s["kR"], s["fR"]); seg(s["sh"], s["eR"], s["hR"])
         hx, hy = s["head"]
-        d.ellipse([hx-RH, hy-RH, hx+RH, hy+RH], fill=c)
-        if crack: self._crack(s, glow, fill)
+        use_face = face or (self.face_on and crack)
+        if use_face:
+            expr = face if isinstance(face, str) else (self.face_expr or ("smile" if glow > 0.35 else "neutral"))
+            if crack: self._crack(s, glow, fill, head=False)
+            self._face(s, expr, alpha)
+        else:
+            d.ellipse([hx-RH, hy-RH, hx+RH, hy+RH], fill=c)
+            if crack: self._crack(s, glow, fill)
         return s
 
-    def _crack(self, s, glow, fill=1.0):
+    _face_cache = {}
+    def _face(self, s, expr, alpha=1.0):
+        """Owner's cartoon head (assets/faces/<expr>.png), big-head style, chin on the neck."""
+        import os
+        sc = s["sc"]; hgt = int(27 * sc * 4.6)
+        key = (expr, hgt, round(s["pose"]["lean"] if "pose" in s and isinstance(s["pose"], dict) else 0, 0))
+        im = Ctx._face_cache.get(key)
+        if im is None:
+            p = os.path.join(os.path.dirname(__file__), "..", "assets", "faces", f"{expr}.png")
+            if not os.path.exists(p): p = os.path.join(os.path.dirname(__file__), "..", "assets", "faces", "neutral.png")
+            src = Image.open(p).convert("RGBA")
+            im = src.resize((max(1, int(src.width * hgt / src.height)), hgt), Image.LANCZOS)
+            lean = key[2] * s.get("facing", 1)
+            if abs(lean) > 2: im = im.rotate(-lean * 0.6, resample=Image.BICUBIC, expand=True)
+            Ctx._face_cache[key] = im
+        if alpha < 1:
+            im = im.copy(); a = im.getchannel("A").point(lambda v: int(v * alpha)); im.putalpha(a)
+        nx, ny = s["neck"]
+        self.img.paste(im, (int(nx - im.width / 2), int(ny + 10 * sc - im.height)), im)
+
+    def _crack(self, s, glow, fill=1.0, head=True):
         hx, hy = s["head"]; nx, ny = s["neck"]; px, py = s["hip"]
         R_HEAD = 27 * s["sc"]
         dx, dy = px - nx, py - ny; L = math.hypot(dx, dy) or 1
         vx, vy = -dy / L, dx / L
-        pts = [(hx - R_HEAD*0.35, hy - R_HEAD*0.95), (hx + R_HEAD*0.2, hy - R_HEAD*0.25),
-               (hx - R_HEAD*0.25, hy + R_HEAD*0.45), (nx + vx*3, ny + vy*3)]
+        pts = ([(hx - R_HEAD*0.35, hy - R_HEAD*0.95), (hx + R_HEAD*0.2, hy - R_HEAD*0.25),
+               (hx - R_HEAD*0.25, hy + R_HEAD*0.45)] if head else []) + [(nx + vx*3, ny + vy*3)]
         for k, f in enumerate([0.3, 0.55, 0.8, 1.0]):
             o = 6 if k % 2 == 0 else -6
             pts.append((nx + dx*f + vx*o, ny + dy*f + vy*o))
@@ -365,6 +394,8 @@ def render_frame(spec, fi):
         if i == hero: accent = GOLD if P.get("color") is None else accent
         pimg = Image.new("RGB", (W, ph)); glow = Image.new("RGB", (W // 2, ph // 2))
         ctx = Ctx(ImageDraw.Draw(pimg), ImageDraw.Draw(glow), W, ph, ground, t, accent)
+        ctx.img = pimg
+        ctx.face_on = bool(getattr(spec, "FACES", False))
         ctx.scale = fig_scale
         ctx.is_hero = (i == hero)
         ctx.payoff_glow = ease_out(ramp(t, payoff, payoff + 0.5)) if (payoff is not None and i == hero) else 0.0
