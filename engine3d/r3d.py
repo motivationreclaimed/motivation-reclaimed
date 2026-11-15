@@ -118,3 +118,36 @@ def stills(prefix, frame_fn, ts):
     sheet = Image.new("RGB", (432 * len(ims), 768))
     for i, im in enumerate(ims): sheet.paste(im, (i * 432, 0))
     sheet.save(prefix + "_sheet.png")
+
+# ---------- cartoon characters inside the dark 3D world ----------
+from engine3d import toon as _toon
+
+def draw_toon(img, emis, cam, P, pose, look, expr="neutral", facing=1, prop=None, alpha=1.0, reflect=True, glow=0.0, bright=1.0):
+    """Paste a cartoon character card standing at world point P (feet) into the float image, with a floor reflection.
+    Returns screen info (head/hand/feet) for tags."""
+    p = cam.proj(P)
+    if not p or p[2] < 0.5: return None
+    hpx = F * 1.75 / p[2]
+    if hpx < 14: return None
+    im, (ax, ay), ex = _toon.card(pose, look, expr, facing, hpx, prop)
+    a = np.asarray(im).astype(np.float32); rgb, al = a[..., :3] * bright, a[..., 3:] / 255 * alpha
+    x0, y0 = int(p[0] - ax), int(p[1] - ay)
+    def blend(rgb, al, x0, y0):
+        h, w = al.shape[:2]; X0, Y0, X1, Y1 = max(0, x0), max(0, y0), min(W, x0 + w), min(H, y0 + h)
+        if X1 <= X0 or Y1 <= Y0: return
+        sl = (slice(Y0 - y0, Y1 - y0), slice(X0 - x0, X1 - x0))
+        img[Y0:Y1, X0:X1] = img[Y0:Y1, X0:X1] * (1 - al[sl]) + rgb[sl] * al[sl]
+    if reflect:                                     # soft mirror image on the glossy floor
+        r = cv2.GaussianBlur(rgb[::-1] * 0.9, (0, 0), 2); ra = cv2.GaussianBlur(al[::-1, :, 0], (0, 0), 2)[..., None] * 0.22
+        blend(r, ra, x0, int(p[1] - (a.shape[0] - ay)))   # flipped: the soles row lands on the floor line
+    # contact shadow
+    cv2.ellipse(img, (int(p[0]), int(p[1])), (int(hpx * 0.28), max(2, int(hpx * 0.05))), 0, 0, 360, (6, 6, 8), -1, cv2.LINE_AA)
+    if look == "hero":                              # gold light BEHIND him (never washes him out), floor pool, faint bloom
+        blob(img, p[0], p[1] - hpx * 0.5, hpx * 0.38 * (1 + glow), hpx * 0.62 * (1 + 0.5 * glow), GOLD * (0.10 + 0.32 * glow))
+        blob(img, p[0], p[1], hpx * 0.6 * (1 + glow), hpx * 0.12 * (1 + glow), GOLD * (0.14 + 0.3 * glow))
+    blend(rgb, al, x0, y0)
+    if look == "hero":
+        blob(emis, p[0], p[1] - hpx * 0.5, hpx * 0.5 * (1 + glow), hpx * 0.7 * (1 + 0.5 * glow), GOLD, 0.03 + 0.12 * glow)
+    if ex.get("glow"):
+        blob(emis, x0 + ex["glow"][0], y0 + ex["glow"][1], hpx * 0.07, hpx * 0.07, (60, 110, 255), 0.9)
+    return dict(head=np.array([x0 + ex["head"][0], y0 + ex["head"][1]]), hand=(x0 + ex["hand"][0], y0 + ex["hand"][1]), feet=(p[0], p[1]), hpx=hpx)

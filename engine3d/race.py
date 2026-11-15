@@ -15,6 +15,7 @@ F = 1350.0                        # focal length (px)
 CX, CY = W / 2, 980               # principal point
 SERIF = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
 GOLD = np.array([255, 190, 90], np.float32)
+TOON = False                      # draw cartoon characters instead of the mannequins
 FIN = 37.0                        # finish line x (m)
 HERO_Z, GREY_Z = 0.0, 1.9         # lanes
 
@@ -43,6 +44,7 @@ class Cam:
         self.C = np.array(pos, np.float32); f = np.array(tgt, np.float32) - self.C
         self.f = f / np.linalg.norm(f); up = np.array([0, 1, 0], np.float32)
         r = np.cross(up, self.f); self.r = r / np.linalg.norm(r); self.u = np.cross(self.f, self.r)
+    def depth(self, P): return float((np.asarray(P, np.float32) - self.C) @ self.f)
     def proj(self, P):
         d = np.asarray(P, np.float32) - self.C
         z = float(d @ self.f)
@@ -58,9 +60,8 @@ def camera(t, hx, gx):
         return Cam((c[0] - 2 * (1 - k), c[1] + 0.6 * (1 - k), c[2] - 1.5 * (1 - k)), g)
     if t < 5.5:                                   # stay with the one falling behind; the light runs away from us
         return Cam(*follow(gx - 0.3))
-    if t < 7.3:                                   # fly down the track to him
-        k = ease((t - 5.5) / 1.5)
-        return Cam(*follow(lerp(gx - 0.3, hx - 2.5, k)))
+    if t < 7.3:                                   # cut straight to him (no empty frames)
+        return Cam(*follow(hx - 2.5))
     k = ease((t - 7.3) / 2.7)                     # payoff: slow orbit around him
     a = lerp(-1.17, -0.25, k); R = lerp(7.8, 5.0, k)
     return Cam((hx + R * math.sin(a), lerp(2.0, 1.3, k), -R * math.cos(a)),
@@ -211,21 +212,34 @@ def frame(t, sub=0.0):
     else: gp = mix(PHONE_STAND, SIT, ease((s - 8.0) / 0.8))
     JH, JG = joints(hx, HERO_Z, hp), joints(gx, GREY_Z, gp)
     warm = 0.25 + 0.75 * glow if abs(gx - hx) < 6 else 0.1 * glow
-    # reflections (mirrored, blurred, faint)
-    draw_figure(refl, emis, cam, JG, warm=warm, mirror=True); draw_figure(refl, emis, cam, JH, hero=True, mirror=True)
-    img += cv2.GaussianBlur(refl, (0, 0), 6) * 0.22
-    for J, hero in sorted([(JG, False), (JH, True)], key=lambda q: -float((q[0]["hip"] - cam.C) @ cam.f)):
-        draw_figure(img, emis, cam, J, hero=hero, warm=warm)
-        if not hero:                                   # phone screen glow
-            p = cam.proj((J["hL"] + J["hR"]) / 2)
-            if p and s < 9.5:
-                cv2.rectangle(img, (int(p[0]) - 5, int(p[1]) - 8), (int(p[0]) + 5, int(p[1]) + 8), (170, 200, 255), -1)
-                blob(emis, p[0], p[1] - 10, 30, 30, (60, 110, 255), 0.9)
-    # hero aura
-    p = cam.proj(JH["neck"] * 0.5 + JH["hip"] * 0.5)
-    if p and p[2] > 0.5:
-        s_ = F / p[2]
-        blob(emis, p[0], p[1], 0.5 * s_ * (1 + 0.8 * glow), 0.85 * s_ * (1 + 0.6 * glow), GOLD, 0.12 + 0.3 * glow)
+    if TOON:                                            # cartoon characters in the dark world
+        from engine3d import toon as T
+        from engine3d.r3d import draw_toon
+        if s < 1.2: th = T.STAND
+        elif hero_running(s): th = T.run(s * 10.5)
+        else: th = T.ARMS_UP if t > 7.7 else T.STAND
+        if s < 1.2: tg = T.PHONE
+        elif s < 8.0: tg = dict(T.walk(s * 6.0, 18), uaF=40, faF=120, uaB=30, faB=110, head=22)
+        else: tg = T.SIT_SAD
+        for who in sorted(("g", "h"), key=lambda q: -cam.depth(np.array([hx if q == "h" else gx, 1, HERO_Z if q == "h" else GREY_Z], np.float32)) if hasattr(cam, "depth") else 0):
+            if who == "g": draw_toon(img, emis, cam, np.array([gx, 0, GREY_Z], np.float32), tg, "grey", "tired" if s > 4 else "neutral", 1, prop="phone", bright=0.85)
+            else: draw_toon(img, emis, cam, np.array([hx, 0, HERO_Z], np.float32), th, "hero", "happy" if t > 7.6 else "determined", 1, glow=glow)
+    else:
+        # reflections (mirrored, blurred, faint)
+        draw_figure(refl, emis, cam, JG, warm=warm, mirror=True); draw_figure(refl, emis, cam, JH, hero=True, mirror=True)
+        img += cv2.GaussianBlur(refl, (0, 0), 6) * 0.22
+        for J, hero in sorted([(JG, False), (JH, True)], key=lambda q: -float((q[0]["hip"] - cam.C) @ cam.f)):
+            draw_figure(img, emis, cam, J, hero=hero, warm=warm)
+            if not hero:                                   # phone screen glow
+                p = cam.proj((J["hL"] + J["hR"]) / 2)
+                if p and s < 9.5:
+                    cv2.rectangle(img, (int(p[0]) - 5, int(p[1]) - 8), (int(p[0]) + 5, int(p[1]) + 8), (170, 200, 255), -1)
+                    blob(emis, p[0], p[1] - 10, 30, 30, (60, 110, 255), 0.9)
+        # hero aura
+        p = cam.proj(JH["neck"] * 0.5 + JH["hip"] * 0.5)
+        if p and p[2] > 0.5:
+            s_ = F / p[2]
+            blob(emis, p[0], p[1], 0.5 * s_ * (1 + 0.8 * glow), 0.85 * s_ * (1 + 0.6 * glow), GOLD, 0.12 + 0.3 * glow)
     if glow > 0:   # payoff: gold sparks rising
         rng = np.random.default_rng(3)
         for i in range(70):
