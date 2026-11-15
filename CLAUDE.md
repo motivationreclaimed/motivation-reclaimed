@@ -23,6 +23,8 @@ The channel is NOT a generic quote page. It is **"the calm discipline channel": 
 - **Recurring series** (rotate; name the series as the caption's first words about 1 in 3 videos, e.g. "Rebuild Series:", "Day 1 vs Day 365:", "One Habit:", "Quiet Wins:"). Series make people follow and come back.
 - **Save-worthy over pretty:** each video should be something a viewer wants to save or send to a friend.
 - Engagement > followers: CTAs (see brand rules), comment-bait questions people can genuinely answer, and the auto first comment below.
+- **Off-limits topics (owner rule):** no "alpha male", "sigma", manosphere, dating/relationship-advice, "leave/ignore girls", "women are a distraction", or anything that puts down any group. The channel is about rebuilding yourself — keep it inclusive.
+- **Audience: UK + US** (account is UK-based). Write in natural English that reads well to both (everyday words, no regional slang from elsewhere); use relatable UK/US-life moments (alarm before work, the commute, the gym after work, Sunday reset, scrolling in bed). Keep hashtags English.
 
 ## VARIETY (owner's explicit rule — do not keep making the same 3-panel comparison)
 Rotate formats. Never use the same format twice in a row, and use the classic "3 labelled panels" in at most 1 of every 4 videos.
