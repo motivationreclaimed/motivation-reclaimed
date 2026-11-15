@@ -13,7 +13,7 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
 - **Quality:** final encode is high quality (CRF 18, ≤10 Mbps for shorts / ≤7 Mbps for episodes so 90 s stays under GitHub's 95 MB raw limit, preset medium) — never lower it to save time.
-- **Length: 8–10 s** for normal shorts; **60–90 s for EPISODES** (see EPISODES below). Do not change unless the owner updates this line.
+- **Length: 8–10 s.** (EPISODES are 60–90 s but PAUSED — see below.) Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
 ## POSITIONING — built to earn from brand deals (owner's core goal)
@@ -38,8 +38,8 @@ Formats (record the format in posted.md):
 Also vary: props, settings (hill, stairs, gym, bed, rain, road, crowd, door), pacing, which panel is the hero, and sound events.
 Hero still carries the gold crack and the PAYOFF ending still closes every video — that is the signature that stays constant.
 
-## EPISODES (owner rule — ACTIVE now)
-- **Ratio: 1 in every 6 posted videos is an EPISODE** (60–90 s original story). Never two episodes in a row. Count in posted.md (FORMAT `EPISODE`). The owner will later raise this to 2 in 6 — only change it when this line says so.
+## EPISODES — **PAUSED pending owner approval: do NOT make, schedule or post any EPISODE until this line says ACTIVE.** Normal shorts only, exactly as before. Rules below apply only once ACTIVE.
+- **Ratio (when ACTIVE): 1 in every 6 posted videos is an EPISODE** (60–90 s original story). Never two episodes in a row. Count in posted.md (FORMAT `EPISODE`). The owner will later raise this to 2 in 6 — only change it when this line says so.
 - Posted to all three platforms like any short (same upload_media + create_post, same slots). It counts as one of the run's videos.
 - What an episode is: ONE continuous story of the Reclaimed man rebuilding one part of his life (phone at night, gym after work, reading instead of scrolling, Sunday reset, money, a comeback after a setback), carrying ONE practical idea viewers can use tonight.
 - **Hook + re-hook (non-negotiable — people must not scroll):**
