@@ -122,6 +122,8 @@ class Ctx:
     # --- figure
     scale = 0.8  # brand character size (fits 3-4 stacked panels)
 
+    puppet_on = False  # set per spec via CHARACTER = True (owner's full cartoon character as the hero)
+    puppet_fist = False
     face_on = False   # set per spec via FACES = True (owner's cartoon face on the hero)
     face_expr = None  # scene may set ctx.face_expr = 'strain' etc. before drawing the hero
 
@@ -136,6 +138,9 @@ class Ctx:
         if clamp and low > 0:  # never sink below the ground mid-transition
             s = {k: ((v[0], v[1] - low) if isinstance(v, tuple) else v) for k, v in s.items()}
         s["sc"] = sc
+        if self.puppet_on and crack:
+            from . import puppet
+            return puppet.draw(self, x, gy, pose, facing, sc, glow, fist=self.puppet_fist)
         c = tuple(int(lerp(12, ch, alpha)) for ch in col)
         w = int(15 * max(0.75, sc))
         RH = R_HEAD * sc
@@ -146,6 +151,9 @@ class Ctx:
         seg(s["hip"], s["kL"], s["fL"]); seg(s["sh"], s["eL"], s["hL"])
         seg(s["hip"], s["neck"]); seg(s["hip"], s["kR"], s["fR"]); seg(s["sh"], s["eR"], s["hR"])
         hx, hy = s["head"]
+        if self.puppet_on and crack:   # owner's cartoon character replaces the stick hero
+            from . import puppet
+            return puppet.draw(self, x, gy, pose, facing, sc, glow, fist=self.puppet_fist)
         use_face = face or (self.face_on and crack)
         if use_face:
             expr = face if isinstance(face, str) else (self.face_expr or ("smile" if glow > 0.35 else "neutral"))
@@ -396,6 +404,7 @@ def render_frame(spec, fi):
         ctx = Ctx(ImageDraw.Draw(pimg), ImageDraw.Draw(glow), W, ph, ground, t, accent)
         ctx.img = pimg
         ctx.face_on = bool(getattr(spec, "FACES", False))
+        ctx.puppet_on = bool(getattr(spec, "CHARACTER", False))
         ctx.scale = fig_scale
         ctx.is_hero = (i == hero)
         ctx.payoff_glow = ease_out(ramp(t, payoff, payoff + 0.5)) if (payoff is not None and i == hero) else 0.0
