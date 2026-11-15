@@ -272,17 +272,19 @@ def overlay_draw(d, t, cam, JH, JG, s, hx):
     spaced(d, (W / 2, 1440), "MOTIVATION RECLAIMED", 22, (90, 90, 96), sp=6)
 
 def finish(img):
-    g = np.random.default_rng(int(img.sum()) % 99999).normal(0, 3.0, (H, W, 1)).astype(np.float32)
+    # light grain only: heavy grain is smeared into blotches by Instagram/TikTok/YouTube re-compression
+    g = np.random.default_rng(int(img.sum()) % 99999).normal(0, 1.1, (H, W, 1)).astype(np.float32)
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     vig = 1 - 0.45 * (((xx - W / 2) / (W * 0.75)) ** 2 + ((yy - H * 0.55) / (H * 0.6)) ** 2)
     img = 255 * (1 - np.exp(-np.maximum(img, 0) / 210))   # filmic: no blown-out whites
+    img = img * 1.4 - cv2.GaussianBlur(img, (0, 0), 1.3) * 0.4         # gentle sharpening: survives platform compression
     return np.clip((img + g) * vig[..., None], 0, 255)
 
 def main(out):
     yy, xx = None, None
     tmpv = out + ".video.mp4"
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-                           "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "grain",
+                           "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "film",
                            "-pix_fmt", "yuv420p", tmpv], stdin=subprocess.PIPE)
     n = int(DUR * FPS)
     for i in range(n):

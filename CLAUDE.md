@@ -20,7 +20,7 @@ Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @mot
 - Every video ends with the PAYOFF at `PAYOFF` (~7.6 s): gold flash (automatic), hero raises arms (`ARMS_V`), aura/floor light grow, `sparks`, camera orbits or pulls back, one short gold closing line; the sound logo plays automatically.
 - Watermark "MOTIVATION RECLAIMED" is automatic.
 - **Sound: sound effects only — NO music** (owner rule). The engine's tonal pad is disabled; never add melodies, chords or music beds. Spec `SOUNDS` events (thud, whoosh, step, hit, crack, rumble, tick) and the payoff sound logo are fine.
-- **Quality:** final encode is high quality (CRF 18, ≤10 Mbps for shorts / ≤7 Mbps for episodes so 90 s stays under GitHub's 95 MB raw limit, preset medium) — never lower it to save time.
+- **Quality:** 1080×1920, 30 fps, CRF 18, ≤10 Mbps, preset medium, tune film — never lower it to save time. The engine keeps grain LIGHT and adds gentle sharpening so videos survive Instagram/TikTok/YouTube re-compression (heavy grain turns into blotches there) — don't add extra grain/noise or blur effects.
 - **Length: 8–10 s.** (EPISODES are 60–90 s but PAUSED — see below.) Do not change unless the owner updates this line.
 - Tone: calm, motivating, no hype, no shouting. Never repeat a concept already in `posted.md`.
 
