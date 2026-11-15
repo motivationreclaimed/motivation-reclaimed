@@ -87,7 +87,7 @@ Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (u
   - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
 - Never schedule into the past or before an already-scheduled post (check posted.md). Publer free allows max 10 pending posts per account.
 
-## Compilations (owner rule) — `compile.py`
+## Compilations — **PAUSED by owner: do NOT make, schedule or post any compilation (tall or wide) until this line says ACTIVE.** Owner found the format boring; it is being redesigned. Ignore the rules below until then. `compile.py`
 Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN | date` and `WIDE | up to NNN | date`.
 - **TALL (~3 min, 9:16, all three platforms)** — when ≥ 18 shorts have been posted since the last TALL (≈3 min of video), make ONE of this run's slots a tall compilation of those shorts (it counts as one of the run's posts). Long enough for TikTok Creator Rewards (>1 min).
 - **WIDE (~10 min, 16:9, YouTube ONLY — account `6af65afdd185a8df145dea8a`)** — when ≥ 60 shorts have been posted since the last WIDE, make ONE slot a wide compilation of those shorts.
@@ -99,7 +99,7 @@ Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN
 - Log in posted.md with FORMAT `COMPILATION TALL` / `COMPILATION WIDE`, then update compilations.md. Commit + push.
 
 ## Animation service CTA (owner rule — the owner sells custom animations)
-- Compilations: the service CTA is built in (side panel + outro + caption) — always.
+- Compilations: (paused) the service CTA is built in (side panel + outro + caption) — always.
 - Shorts: about 1 in 8 shorts uses the service CTA as its on-screen `CTA`: "Want videos like this? Email mr@pixevon.com" (and the caption's last line before hashtags mentions it too). Never two in a row.
 
 ## Owner's cartoon face (pending owner approval — keep OFF until this line says ON)
