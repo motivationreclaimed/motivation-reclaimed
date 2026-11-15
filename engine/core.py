@@ -510,7 +510,7 @@ def render(spec, out, workers=2):
     sfx.build(spec, wav)
     tmp_out = out + ".tmp.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-i", wav,
-                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-maxrate", "10M", "-bufsize", "20M", "-preset", "medium", "-tune", "grain", "-profile:v", "high",
+                    "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-maxrate", ("10M" if spec.DURATION <= 30 else "7M"), "-bufsize", ("20M" if spec.DURATION <= 30 else "14M"), "-preset", "medium", "-tune", "grain", "-profile:v", "high",
                     "-pix_fmt", "yuv420p", "-movflags", "+faststart", "-c:a", "aac", "-b:a", "192k", "-shortest", tmp_out], check=True)
     os.replace(tmp_out, out)
     return out
