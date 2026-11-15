@@ -42,7 +42,7 @@ Never the same scene type twice in a row. Record the FORMAT in posted.md. 3D for
 - **WALL** — boxes as bricks: build a wall / break through one (use `box()`).
 - **DOOR / ROOM** — a doorway of light, bed + alarm, desk… built from `box()` (keep sets minimal).
 - **CROWD** — many grey figures walking one way, he turns / walks the other way.
-- **REVERSE** — open on the gold payoff, then "ONE YEAR AGO" and how he got there.
+- **REVERSE** — open on the gold success, then a REWIND (◀◀ icon, reverse motion, whoosh) back to the start ("ATTEMPT 01" / "ONE YEAR AGO"), a fast speed-up montage of the failures with an attempt counter + small FAIL stamps, then the final attempt → PASS → gold PAYOFF.
 Also vary camera moves, which counter (DAY / REPS / STEPS / HOURS), the speed-up moment, tags and sounds. The gold hero + gold PAYOFF ending stay constant.
 
 ## EPISODES — **OFF (owner, 15 Nov 2026): no long videos for now — maybe in 2–3 months. Do NOT make, schedule or post any EPISODE until this line says ACTIVE.** Normal shorts only, exactly as before. Rules below apply only once ACTIVE.
