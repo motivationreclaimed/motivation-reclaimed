@@ -510,7 +510,8 @@ def render_frame(spec, fi):
         f = (1 - (t - payoff) / 0.3) ** 1.5 * 0.7
         arr = lerp(arr, np.array([255, 226, 170], np.float32), f)
     arr = arr * VIGN + GRAIN[fi % 6] + PAPER
-    if t < 0.15: arr *= t / 0.15
+    # no fade-in (owner: the first frame is the thumbnail); short fade-out at the very end
+    if t > spec.DURATION - 0.3: arr *= max(0.0, (spec.DURATION - t) / 0.3)
     return np.clip(arr, 0, 255).astype(np.uint8)
 
 

@@ -54,7 +54,7 @@ def frame(t, sub):
     reps = int(max(0.0, min(st(7.2), s) - 1.0) * 24)          # running total (12 sets a week)
     def ov(d):
         if t < 1.3:
-            a = int(255 * min(1, t / 0.3) * min(1, (1.3 - t) / 0.3)); spaced(d, (W / 2, 520), "JANUARY. EVERYONE'S HERE.", 48, (a, a, a), sp=6)
+            a = int(255 * min(1, (1.3 - t) / 0.3)); spaced(d, (W / 2, 520), "JANUARY. EVERYONE'S HERE.", 48, (a, a, a), sp=6)
         elif t < PAYOFF:
             m = MONTHS[min(3, int(max(0, s - 1.0) / 3.6))]
             spaced(d, (W / 2, 520), m, 70, (240, 240, 244), sp=10)

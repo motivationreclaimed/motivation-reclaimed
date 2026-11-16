@@ -103,6 +103,8 @@ def render(out, frame_fn, dur, payoff, sounds, blur=None):
             img, ov = frame_fn(t, 0.0)
         if payoff <= t < payoff + 0.15: img = img + (1 - (t - payoff) / 0.15) * 90
         im = Image.fromarray(finish(img).astype(np.uint8)); ov(ImageDraw.Draw(im))
+        if t > dur - 0.3:   # short fade-out at the end (never a fade-in)
+            im = Image.fromarray((np.asarray(im).astype(np.float32) * max(0.0, (dur - t) / 0.3)).astype(np.uint8))
         ff.stdin.write(np.asarray(im).tobytes())
     ff.stdin.close(); ff.wait()
     wav = out + ".wav"; sfx.build(types.SimpleNamespace(DURATION=dur, PAYOFF=payoff, SOUNDS=sounds), wav)

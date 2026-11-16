@@ -69,7 +69,7 @@ def frame(t, sub):
     img = compose(img, emis)
     def ov(d):
         if t < 1.4:
-            a = int(255 * min(1, t / 0.3) * min(1, (1.4 - t) / 0.3)); spaced(d, (W / 2, 520), "EVERYONE WANTS THE TOP.", 50, (a, a, a), sp=7)
+            a = int(255 * min(1, (1.4 - t) / 0.3)); spaced(d, (W / 2, 520), "EVERYONE WANTS THE TOP.", 50, (a, a, a), sp=7)
         if 3.6 <= t < 5.8:
             spaced(d, (W / 2, 520), f"DAY {8 + int(192 * min(1, (t - 3.6) / 2.0))}", 84, (240, 240, 244), sp=10)
             spaced(d, (W / 2, 590), "× 4", 30, (150, 150, 160), sp=6)
