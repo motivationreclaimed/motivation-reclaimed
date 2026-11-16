@@ -271,7 +271,7 @@ def overlay_draw(d, t, cam, JH, JG, s, hx):
             if p: tag(d, p[0], p[1], text, gold)
     # hook line, speed-up counter
     if t < 1.5:
-        a = int(255 * min(1, t / 0.3) * min(1, (1.5 - t) / 0.3))
+        a = int(255 * min(1, (1.5 - t) / 0.3))
         spaced(d, (W / 2, 520), "SAME 24 HOURS.", 54, (a, a, a), sp=8)
     if 3.5 <= t < 5.7:
         day = 1 + int(89 * min(1, (t - 3.5) / 2.0))

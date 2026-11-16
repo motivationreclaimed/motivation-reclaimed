@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import numpy as np
 from engine3d.r3d import *
 
-DUR, PAYOFF = 10.0, 7.6
+DUR, PAYOFF = 8.9, 7.6
 def st(t): return t if t < 3.0 else (3.0 + 4 * (t - 3.0) if t < 5.6 else 13.4 + (t - 5.6))
 
 SQ_UP = dict(hip=0.95, lean=4, thL=4, shL=4, thR=-4, shR=-4, uaL=-40, faL=150, uaR=-40, faR=150, head=-4)
@@ -54,7 +54,7 @@ def frame(t, sub):
     reps = int(max(0.0, min(st(7.2), s) - 1.0) * 24)          # running total (12 sets a week)
     def ov(d):
         if t < 1.3:
-            a = int(255 * min(1, t / 0.3) * min(1, (1.3 - t) / 0.3)); spaced(d, (W / 2, 520), "JANUARY. EVERYONE'S HERE.", 48, (a, a, a), sp=6)
+            a = int(255 * min(1, (1.3 - t) / 0.3)); spaced(d, (W / 2, 520), "JANUARY. EVERYONE'S HERE.", 48, (a, a, a), sp=6)
         elif t < PAYOFF:
             m = MONTHS[min(3, int(max(0, s - 1.0) / 3.6))]
             spaced(d, (W / 2, 520), m, 70, (240, 240, 244), sp=10)

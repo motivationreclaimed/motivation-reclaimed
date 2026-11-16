@@ -4,7 +4,7 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from engine3d import race
 
-DUR, PAYOFF, BLUR = 10.0, 7.6, (3.5, 5.5)
+DUR, PAYOFF, BLUR = 8.9, 7.6, (3.5, 5.5)
 CTA = "Which lane are you in? Comment below."
 CAPTION = """Same 24 hours, two very different lanes (discipline vs phone)
 
