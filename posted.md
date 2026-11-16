@@ -12,7 +12,7 @@ NNN | slug | FORMAT | scheduled_at (UTC) | concept
 009 | the_door | REVERSE | 2026-11-17T13:00:00Z | THE DOOR — opens on the gold doorway, rewinds: KNOCKS ONCE walks away vs KNOCKS DAILY (day counter to 47) until it opens
 013 | the_jar | TOON3D · CLIMB | 2026-11-17T21:00:00Z | THE JAR — MONEY: £5 a day, stairs = days, SAVED £0→£900 in speed-up (auto-comment ON)
 010 | which_lane | GOLD3D · RACE | 2026-11-18T12:00:00Z | THE LANE — phone vs discipline, DAY 90 (auto-comment ON; re-rendered 8.9 s)
-014 | the_daily_four | STICK2D · COUNTER | PENDING (upload failed: raw URL not fetched) | 2026-11-18T21:00:00Z | THE DAILY £4 — MONEY: takeaway vs home brew, £1,460 vs £1,095 saved
+014 | the_daily_four | STICK2D · COUNTER | 2026-11-18T21:00:00Z | THE DAILY £4 — MONEY: takeaway vs home brew, £1,460 vs £1,095 saved
 011 | one_step_a_day | GOLD3D · CLIMB | 2026-11-19T12:00:00Z | ONE STEP A DAY — discipline climb (no auto-comment: Publer plan limit)
 015 | the_subscriptions | TOON3D · DROP | 2026-11-19T21:00:00Z | THE SUBSCRIPTIONS — MONEY: drops subscriptions, MONTHLY £84→£11 (no auto-comment)
 016 | the_phone_across_the_room | STICK2D · SPLIT 2 | 2026-11-20T12:00:00Z | PHONE ACROSS THE ROOM — sleep: phone in bed vs charging across the room
