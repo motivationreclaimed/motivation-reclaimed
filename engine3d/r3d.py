@@ -88,7 +88,7 @@ def chrome(d, t, cta, payoff, service=False):
     else:
         spaced(d, (W / 2, 1440), "MOTIVATION RECLAIMED", 22, (90, 90, 96), sp=6)
 
-def render(out, frame_fn, dur, payoff, sounds, blur=None):
+def render(out, frame_fn, dur, payoff, sounds, blur=None, mood="warm"):
     """frame_fn(t, sub) -> (float img, overlay_fn(PIL draw))"""
     tmpv = out + ".v.mp4"
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
@@ -108,6 +108,7 @@ def render(out, frame_fn, dur, payoff, sounds, blur=None):
         ff.stdin.write(np.asarray(im).tobytes())
     ff.stdin.close(); ff.wait()
     wav = out + ".wav"; sfx.build(types.SimpleNamespace(DURATION=dur, PAYOFF=payoff, SOUNDS=sounds), wav)
+    from engine3d import music; music.mix_into(wav, dur, lift=payoff, mood=mood)   # soft original score
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmpv, "-i", wav, "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
                     "-shortest", "-movflags", "+faststart", out], check=True)
     os.remove(tmpv); os.remove(wav)

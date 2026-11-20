@@ -530,6 +530,7 @@ def render(spec, out, workers=2):
     open(lst, "w").write("".join(f"file {p}\n" for p in parts))
     wav = f"{tmp}/sfx.wav"
     sfx.build(spec, wav)
+    from engine3d import music; music.mix_into(wav, spec.DURATION, lift=getattr(spec, "PAYOFF", None), mood=getattr(spec, "MOOD", "warm"))   # soft original score
     tmp_out = out + ".tmp.mp4"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lst, "-i", wav,
                     "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-crf", "16", "-maxrate", ("16M" if spec.DURATION <= 30 else "7M"), "-bufsize", ("32M" if spec.DURATION <= 30 else "14M"), "-preset", "medium", "-tune", "film", "-profile:v", "high",

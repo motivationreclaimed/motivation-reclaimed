@@ -2,11 +2,26 @@
 import numpy as np, wave
 SR = 44100
 CHORDS = [[48, 55, 60, 64, 71], [45, 52, 57, 60, 67], [41, 48, 55, 57, 64], [43, 50, 55, 59, 62]]   # Cmaj7 Am7 Fmaj7 G6
+# scene moods (all beatless, no melody): the score follows the story and resolves warm at the payoff
+MOODS = {
+    "warm":    CHORDS,                                                                              # calm, everyday
+    "hopeful": [[41, 48, 57, 60, 64], [43, 50, 55, 59, 66], [45, 52, 57, 60, 64], [48, 55, 59, 64, 67]],  # Fmaj7 G Am Cmaj7: rising
+    "tense":   [[45, 52, 57, 60, 64], [41, 48, 53, 57, 60], [38, 45, 50, 53, 57], [40, 47, 52, 56, 59]],  # Am F Dm E: struggle, setbacks
+    "night":   [[38, 45, 50, 53, 60], [43, 50, 55, 58, 62], [36, 43, 48, 51, 55], [41, 48, 53, 56, 60]],  # Dm9 Gm Cm Fm: late night, phone, sleep
+}
+RESOLVE = [36, 43, 48, 52, 55, 62]                                                                  # Cadd9: the gold payoff
 def hz(m): return 440.0 * 2 ** ((m - 69) / 12)
-def pad(dur, seed=0, lift=None):
+def pad(dur, seed=0, lift=None, mood="warm"):
     n = int(dur * SR); t = np.arange(n) / SR; out = np.zeros(n, np.float32)
-    seg = dur / len(CHORDS)
-    for i, ch in enumerate(CHORDS):
+    chords = list(MOODS.get(mood, CHORDS))
+    end = lift if lift else dur
+    seg = end / len(chords)
+    if lift:                                                       # resolve to a warm chord at the payoff
+        env = np.clip((t - lift + 0.4) / 0.8, 0, 1).astype(np.float32)
+        for m in RESOLVE:
+            for det in (-0.1, 0.1):
+                f = hz(m + det); out += (np.sin(2 * np.pi * f * t) * 0.7 + np.sin(4 * np.pi * f * t) * 0.1).astype(np.float32) * env / len(RESOLVE)
+    for i, ch in enumerate(chords):
         env = np.clip(1 - np.abs((t - (i + 0.5) * seg) / (seg * 0.95)), 0, 1) ** 1.2   # long cross-fades
         for m in ch:
             for det in (-0.12, 0.12):
@@ -19,11 +34,11 @@ def pad(dur, seed=0, lift=None):
     if lift is not None: out *= (1 + 0.6 * np.clip((t - lift) / 1.0, 0, 1)).astype(np.float32)   # gentle swell at payoff
     return out * fade / (np.abs(out).max() + 1e-9)
 
-def mix_into(wav_path, dur, level=0.16, lift=None):
+def mix_into(wav_path, dur, level=0.38, lift=None, mood="warm"):
     with wave.open(wav_path) as w:
         ch, sw, sr, nf = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
         a = np.frombuffer(w.readframes(nf), np.int16).astype(np.float32).reshape(-1, ch) / 32768
-    p = pad(nf / sr, lift=lift)
+    p = pad(nf / sr, lift=lift, mood=mood)
     if sr != SR: p = np.interp(np.linspace(0, len(p) - 1, nf), np.arange(len(p)), p)
     a += (p[:nf] * level)[:, None]
     a = np.clip(a, -0.98, 0.98)

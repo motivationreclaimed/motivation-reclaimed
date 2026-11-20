@@ -14,4 +14,4 @@ if "--stills" in sys.argv:
     stills(os.path.join("previews", name), spec.frame, ts); print(f"previews/{name}_sheet.png")
 else:
     os.makedirs("videos", exist_ok=True); out = os.path.join("videos", name + ".mp4")
-    render(out, spec.frame, spec.DUR, spec.PAYOFF, spec.SOUNDS, blur=getattr(spec, "BLUR", None)); print(out)
+    render(out, spec.frame, spec.DUR, spec.PAYOFF, spec.SOUNDS, blur=getattr(spec, "BLUR", None), mood=getattr(spec, "MOOD", "warm")); print(out)
