@@ -34,11 +34,34 @@ def pad(dur, seed=0, lift=None, mood="warm"):
     if lift is not None: out *= (1 + 0.6 * np.clip((t - lift) / 1.0, 0, 1)).astype(np.float32)   # gentle swell at payoff
     return out * fade / (np.abs(out).max() + 1e-9)
 
-def mix_into(wav_path, dur, level=0.38, lift=None, mood="warm"):
+LIB = __import__("os").path.join(__import__("os").path.dirname(__file__), "..", "assets", "music")
+RESOLVE_AT = 9.0          # where every library track lands its gold chord (tools/compose_music.py)
+
+def track(dur, lift=None, mood="warm"):
+    """A real composed track for this mood (assets/music/<mood>_N.ogg), aligned so its resolve hits the PAYOFF.
+    Falls back to the synth pad if the library is missing."""
+    import os, glob, random, subprocess
+    files = sorted(glob.glob(os.path.join(LIB, f"{mood}_*.ogg"))) or sorted(glob.glob(os.path.join(LIB, "warm_*.ogg")))
+    if not files: return None
+    f = random.choice(files)
+    raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
+                         capture_output=True, check=True).stdout
+    a = np.frombuffer(raw, np.float32).copy()
+    off = RESOLVE_AT - (lift if lift else 8.0)
+    n = int(dur * SR); i0 = int(off * SR); out = np.zeros(n, np.float32)
+    src0, dst0 = max(0, i0), max(0, -i0)
+    seg = a[src0: src0 + n - dst0]; out[dst0: dst0 + len(seg)] = seg
+    out[:int(0.03 * SR)] *= np.linspace(0, 1, int(0.03 * SR))          # click-free start (no audible fade-in)
+    t = np.arange(n) / SR; out *= np.clip((dur - t) / 0.5, 0, 1)       # short fade-out with the picture
+    print("music:", os.path.basename(f))
+    return out
+
+def mix_into(wav_path, dur, level=0.34, lift=None, mood="warm"):
     with wave.open(wav_path) as w:
         ch, sw, sr, nf = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
         a = np.frombuffer(w.readframes(nf), np.int16).astype(np.float32).reshape(-1, ch) / 32768
-    p = pad(nf / sr, lift=lift, mood=mood)
+    p = track(nf / sr, lift=lift, mood=mood)
+    if p is None: p = pad(nf / sr, lift=lift, mood=mood); level = 0.38
     if sr != SR: p = np.interp(np.linspace(0, len(p) - 1, nf), np.arange(len(p)), p)
     a += (p[:nf] * level)[:, None]
     a = np.clip(a, -0.98, 0.98)
