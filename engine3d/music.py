@@ -56,7 +56,10 @@ def track(dur, lift=None, mood="warm"):
     print("music:", os.path.basename(f))
     return out
 
+ENABLED = False   # owner, 20 Nov 2026: music library saved but OFF until CLAUDE.md says ON (SFX only)
+
 def mix_into(wav_path, dur, level=0.34, lift=None, mood="warm"):
+    if not ENABLED: return
     with wave.open(wav_path) as w:
         ch, sw, sr, nf = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
         a = np.frombuffer(w.readframes(nf), np.int16).astype(np.float32).reshape(-1, ch) / 32768
