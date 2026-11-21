@@ -77,7 +77,7 @@ SOUNDS = [(0.5, "tick", 0.3), (1.0, "hit", 0.4), (1.6, "whoosh", 0.4), (2.2, "st
 BLUR = (3.4, 5.6)
 MOOD = "hopeful"
 CTA = "Comment 'five' and start now."
-CAPTION = """The 5-minute rule: start for five minutes, then decide (habits)
+CAPTION = """Start for five minutes, then decide. The easiest habit rule there is
 
 The hardest part is the door, not the work. Five minutes in, you usually stay.
 

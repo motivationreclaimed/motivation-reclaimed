@@ -81,7 +81,7 @@ SOUNDS = [(0.5, "tick", 0.3), (1.0, "thud", 0.5), (2.05, "thud", 0.5), (3.0, "wh
 BLUR = (3.0, 5.4)
 MOOD = "tense"
 CTA = "Save this for when it feels impossible."
-CAPTION = """Persistence looks boring until the wall finally breaks (mindset)
+CAPTION = """The persistence mindset looks boring until the wall finally breaks
 
 I stopped asking how big the wall was. I only asked what I could chip off today.
 

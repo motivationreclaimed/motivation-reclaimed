@@ -7,7 +7,7 @@ PAYOFF = 7.3
 HERO = 1
 CTA = "Comment 'mon wed fri' and lock it in."
 
-CAPTION = """Stop waiting to feel like it. Put the gym in your calendar (consistency)
+CAPTION = """Gym consistency: stop waiting to feel like it, put it in your calendar
 
 Three fixed days beat seven good intentions. Decide once, then just turn up.
 

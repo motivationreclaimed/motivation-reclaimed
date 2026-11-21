@@ -79,7 +79,7 @@ SOUNDS = [(0.5, "tick", 0.3), (1.0, "hit", 0.4), (1.6, "thud", 0.3), (3.2, "whoo
 BLUR = (3.2, 5.6)
 MOOD = "warm"
 CTA = "Which want will you test for 30 days?"
-CAPTION = """The 30-day rule: wait a month before any non-essential buy (money habits)
+CAPTION = """The 30-day rule, a simple money habit for every non-essential buy
 
 I write it on a list and look again in 30 days. Most of it stops mattering by day nine.
 

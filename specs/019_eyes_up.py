@@ -66,7 +66,7 @@ SOUNDS = [(0.5, "tick", 0.3), (1.0, "tick", 0.3), (1.5, "tick", 0.3), (TURN, "hi
          [(3.2 + k * 0.5, "step", 0.3) for k in range(8)]
 MOOD = "night"
 CTA = "Comment 'eyes up' if this is you."
-CAPTION = """Eyes up for one hour a day. Phone down, focus up (self improvement)
+CAPTION = """Eyes up for one hour a day. Phone down, focus up
 
 I counted how many people on my commute never looked up once. Then I counted myself.
 

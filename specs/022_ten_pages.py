@@ -7,7 +7,7 @@ PAYOFF = 7.5
 HERO = 1
 CTA = "Save this and read tonight."
 
-CAPTION = """Ten pages a night. That's about twelve books a year (reading habit)
+CAPTION = """Reading habit: ten pages a night is about twelve books a year
 
 Not a big plan. Not a new year. Ten pages, lamp on, phone in another room.
 

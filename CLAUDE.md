@@ -103,7 +103,7 @@ If something fails: fix it and re-render, then run the gate again (max 2 fix rou
 
 ## Captions (SEO, VARIED, human — avoids "inauthentic/repetitive content" flags)
 There is NO fixed template. Every caption must read differently from the last ~10 in posted.md captions (see specs/).
-- **First line = the title.** Unique, under 90 characters, contains a keyword (motivation, discipline, mindset, habits, self improvement, consistency…). YouTube uses it as the Short's title. Never reuse a title pattern twice in a row (e.g. not "Same X. Three people." again).
+- **First line = the title.** Unique, under 90 characters, contains a keyword (motivation, discipline, mindset, habits, self improvement, consistency…). YouTube uses it as the Short's title. Never reuse a title pattern twice in a row (e.g. not "Same X. Three people." again). Work the keyword into the sentence naturally — never tack it on in brackets like "... (discipline)" (21 Nov run did this on all 7; looks templated).
 - **Body:** 1–3 short lines. Vary the structure: sometimes a reflection, sometimes one blunt sentence, sometimes a question, sometimes a tiny story. Sometimes no body at all.
 - **Voice:** roughly half the captions in a quiet first-person voice — a man rebuilding himself, speaking plainly, like a note to himself. Examples of the RIGHT tone:
   - "Didn't feel like it today. Did it anyway. That's the whole secret."
@@ -118,9 +118,9 @@ There is NO fixed template. Every caption must read differently from the last ~1
 - Save the caption as `CAPTION` in the spec (so future runs can check for repetition).
 
 ## Posting (Zapier → Publer)
-1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL:
-   `https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`
-2. Publer `upload_media` (selected_api `App232404CLIAPI`, upload_type `url`, `file_urls` = [raw URL]) → media id.
+1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL (use the jsDelivr CDN — Publer often fails to fetch raw.githubusercontent.com, 21 Nov 2026):
+   `https://cdn.jsdelivr.net/gh/motivationreclaimed/motivation-reclaimed@main/videos/<file>.mp4`
+2. Publer `upload_media` (selected_api `App232404CLIAPI`, workspace_id, upload_type `url`, `file_urls` = [CDN URL]) → media id. If the result says "not a publicly accessible media", wait ~1 minute and retry ONCE with the same CDN URL, then once with `https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`. Only if all fail, log it PENDING (the catch-up task retries).
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.
    - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
@@ -175,7 +175,7 @@ Then write `insights.md` (overwrite): followers and views trend, top 5 and botto
 ## If Zapier / Publer is unavailable (connector down, outage, 5xx errors)
 - Still make and render all the videos, commit + push them, and log each in posted.md as
   `NNN | slug | FORMAT | PENDING (zapier unavailable) | planned_slot | concept` (planned_slot = the ISO time it should have gone out).
-- Say so clearly in the run report. Do not burn retries in a loop — the separate **retry task** (Mon & Thu 14:17 and 18:17 UK) will post them.
+- Say so clearly in the run report. Do not burn retries in a loop — the separate **catch-up / retry task** (Mon & Thu 15:17 and 20:17 UK, 5 h after the main run; it also does the full run if the main run failed) will post them.
 - Retry task behaviour: if posted.md has NO `PENDING` lines → stop immediately, do nothing else. Otherwise, for each PENDING video:
   upload_media + create_post as normal; if its planned slot is already in the past, schedule it at the next free 12:00/21:00 slot (21:00 only on the free plan)
   after the last scheduled post (never in the past); replace PENDING with the real scheduled_at; commit + push.

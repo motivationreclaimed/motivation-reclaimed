@@ -79,7 +79,7 @@ SOUNDS = [(0.5, "tick", 0.3), (1.0, "hit", 0.4), (1.5, "thud", 0.3), (2.0, "thud
 BLUR = (3.2, 5.6)
 MOOD = "hopeful"
 CTA = "Save this for the hard days."
-CAPTION = """Twenty focused minutes a day beats one heroic weekend (discipline)
+CAPTION = """Discipline is twenty focused minutes a day, not one heroic weekend
 
 Nobody sees the first bricks. They're still the whole wall.
 
