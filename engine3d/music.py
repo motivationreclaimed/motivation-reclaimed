@@ -41,7 +41,8 @@ def track(dur, lift=None, mood="warm"):
     """A real composed track for this mood (assets/music/<mood>_N.ogg), aligned so its resolve hits the PAYOFF.
     Falls back to the synth pad if the library is missing."""
     import os, glob, random, subprocess
-    files = sorted(glob.glob(os.path.join(LIB, f"{mood}_*.ogg"))) or sorted(glob.glob(os.path.join(LIB, "warm_*.ogg")))
+    pat = (f"funk_{mood}_*.ogg", "funk_*.ogg") if STYLE == "funk" else (f"{mood}_*.ogg", "warm_*.ogg")
+    files = sorted(glob.glob(os.path.join(LIB, pat[0]))) or sorted(glob.glob(os.path.join(LIB, pat[1])))
     if not files: return None
     f = random.choice(files)
     raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
@@ -56,9 +57,10 @@ def track(dur, lift=None, mood="warm"):
     print("music:", os.path.basename(f))
     return out
 
+STYLE = "funk"    # owner, 22 Nov 2026: light original motivational funk (tools/compose_funk.py); "score" = the piano/strings set
 ENABLED = False   # owner, 20 Nov 2026: music library saved but OFF until CLAUDE.md says ON (SFX only)
 
-def mix_into(wav_path, dur, level=0.34, lift=None, mood="warm"):
+def mix_into(wav_path, dur, level=0.24, lift=None, mood="warm"):
     if not ENABLED: return
     with wave.open(wav_path) as w:
         ch, sw, sr, nf = w.getnchannels(), w.getsampwidth(), w.getframerate(), w.getnframes()
