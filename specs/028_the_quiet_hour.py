@@ -13,11 +13,11 @@ def camera(t):
     k = ease((t - PAYOFF) / 1.2)
     return Cam((lerp(-1.0, 0.4, k), lerp(1.8, 2.7, k), lerp(-5.4, -8.2, k)), (0.3, 0.9, 0.0))
 
-PASS = [(0.2, 1, 3.0, 6.0, "quick look?"), (3.0, -1, 3.4, 6.0, "one reel."), (5.0, 1, 2.8, 7.0, "five minutes?")]    # start t, dir, z, speed, tag
+PASS = [(0.2, 1, 4.5, 6.0, "quick look?"), (3.0, -1, 5.0, 6.0, "one reel."), (5.0, 1, 4.2, 7.0, "five minutes?")]    # start t, dir, z, speed, tag
 def passer(k, t):
     t0, d, z, sp, _ = PASS[k]
     u = t - t0
-    if u < 0 or u > 3.2: return None
+    if u < 0 or u > 2.8: return None
     x = -3.2 + 2.1 * u if d > 0 else 3.2 - 2.1 * u
     return x, z, d
 
@@ -61,7 +61,7 @@ def frame(t, sub):
             if q and 0.9 < t - PASS[k][0] < 2.1:
                 p = cam.proj(np.array([q[0], 2.0, q[1]], np.float32))
                 if p and 120 < p[0] < W - 120: tag(d, p[0], p[1], PASS[k][4], False)
-        if 3.4 <= t < 4.4:
+        if 2.4 <= t < 3.6:
             p = cam.proj(JH["head"] + np.array([0, 0.6, 0], np.float32))
             if p: tag(d, p[0], p[1], "not now.", True)
         chrome(d, t, CTA, PAYOFF)
