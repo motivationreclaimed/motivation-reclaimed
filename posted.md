@@ -24,4 +24,11 @@ NNN | slug | FORMAT | scheduled_at (UTC) | concept
 021 | through_the_wall | GOLD3D · BREAKTHROUGH | 2026-11-23T12:00:00Z | THROUGH THE WALL — one walks away, one waits, he chips daily (x4) and walks through into the light
 022 | ten_pages | STICK2D · PROGRESSION 2 | 2026-11-23T21:00:00Z | TEN PAGES — night 1 vs night 365, shelf fills to 12 books
 023 | five_minutes | TOON3D · DOOR | 2026-11-24T12:00:00Z | FIVE MINUTES — the 5-minute rule: opens the door, 5:00 countdown x4, stays
+024 | one_plank_a_day | GOLD3D · BRIDGE | 2026-11-24T21:00:00Z | ONE PLANK A DAY — gap too wide, he lays a plank a day (x4), runs across
+025 | save_first | TOON3D · JAR | 2026-11-25T12:00:00Z | SAVE FIRST — MONEY: jar filled before parcels, MONTH 1→12, SAVED £1,200
+026 | ten_minute_walk | STICK2D · SPLIT 2 | 2026-11-25T21:00:00Z | 10-MINUTE WALK — afternoon focus dip: sit vs walk, focus bar
+027 | attempt_47 | TOON3D · REVERSE | 2026-11-26T12:00:00Z | ATTEMPT 47 — opens on success, rewind, 46 fails montage, PASS
+028 | the_quiet_hour | GOLD3D · DESK | 2026-11-26T21:00:00Z | THE QUIET HOUR — one protected focus hour, distractors pass, no speed-up
+029 | no_spend_weekend | STICK2D · COUNTER | 2026-11-27T21:00:00Z | ONE QUIET WEEKEND — MONEY: every weekend out £720 vs one no-spend weekend a month £240 kept
+030 | same_24_hours | TOON3D · SPLIT | 2026-11-28T21:00:00Z | SAME 24 HOURS — scroller vs stack of 8 focused-hour blocks, clock x4
 NOTE: Publer free plan allows only ~2 auto-comments; later create_post calls with auto_comment_* fail (partial posts may be created — a retry without it reported 'another post at this time' on accounts that already succeeded). Future runs: skip auto_comment fields.
