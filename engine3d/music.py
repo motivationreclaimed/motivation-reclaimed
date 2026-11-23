@@ -41,6 +41,18 @@ def track(dur, lift=None, mood="warm"):
     """A real composed track for this mood (assets/music/<mood>_N.ogg), aligned so its resolve hits the PAYOFF.
     Falls back to the synth pad if the library is missing."""
     import os, glob, random, subprocess
+    if STYLE == "owner":                                    # owner's own track(s): a random slice per video
+        files = sorted(glob.glob(os.path.join(LIB, "owner", "*.mp3")) + glob.glob(os.path.join(LIB, "owner", "*.ogg")))
+        if files:
+            f = random.choice(files)
+            raw = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f, "-f", "f32le", "-ac", "1", "-ar", str(SR), "-"],
+                                 capture_output=True, check=True).stdout
+            a = np.frombuffer(raw, np.float32).copy(); a /= (np.abs(a).max() + 1e-9)
+            n = int(dur * SR); start = 0                     # owner: every short uses the track FROM THE START
+            out = np.zeros(n, np.float32); seg = a[start:start + n]; out[:len(seg)] = seg
+            out[:int(0.03 * SR)] *= np.linspace(0, 1, int(0.03 * SR))
+            t = np.arange(n) / SR; out *= np.clip((dur - t) / 0.5, 0, 1)
+            print("music:", os.path.basename(f), f"from {start / SR:.1f}s"); return out
     pat = (f"funk_{mood}_*.ogg", "funk_*.ogg") if STYLE == "funk" else (f"{mood}_*.ogg", "warm_*.ogg")
     files = sorted(glob.glob(os.path.join(LIB, pat[0]))) or sorted(glob.glob(os.path.join(LIB, pat[1])))
     if not files: return None
@@ -57,8 +69,9 @@ def track(dur, lift=None, mood="warm"):
     print("music:", os.path.basename(f))
     return out
 
-STYLE = "funk"    # owner, 22 Nov 2026: light original motivational funk (tools/compose_funk.py); "score" = the piano/strings set
-ENABLED = False   # owner, 20 Nov 2026: music library saved but OFF until CLAUDE.md says ON (SFX only)
+STYLE = "owner"   # owner, 22 Nov 2026: owner's own track in assets/music/owner/ on ALL videos (light), always from 0:00. Other options: "funk", "score".
+# owner, 22 Nov 2026: light original motivational funk (tools/compose_funk.py); "score" = the piano/strings set
+ENABLED = True    # owner, 22 Nov 2026: MUSIC ON
 
 def mix_into(wav_path, dur, level=0.24, lift=None, mood="warm"):
     if not ENABLED: return
