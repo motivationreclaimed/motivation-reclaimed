@@ -11,7 +11,6 @@ Each = one warm true message + a tiny wolf story (setback/doubt → small turn �
 - THE SEED KNOWS — seed underground (cutaway line), roots grow before anything shows above. "NOTHING'S HAPPENING?" → "ROOTS FIRST."
 - KIND WORDS TO YOURSELF — speech scribble "I'M USELESS" crumples, replaced by "I'M LEARNING". "WHAT YOU SAY" → "BECOMES WHAT YOU BELIEVE."
 - THE LONG WAY ROUND — path blocked by a wall, he walks round a longer path, still reaches the sun. "BLOCKED?" → "THERE'S ANOTHER WAY."
-- BREATHE — close-up, eyes shut, counter "IN 4 · OUT 4", shoulders drop, smile. "TOO MUCH?" → "BREATHE FIRST."
 - YOU'VE SURVIVED BEFORE — wide line of past "storms" (clouds behind him), each passed; he faces a new cloud calmly. "AGAIN?" → "YOU'VE DONE THIS BEFORE."
 - LIGHT A CANDLE — dark, wolf strikes a small light (sketched flame), the dark shrinks around him. "TOO DARK?" → "START WITH ONE LIGHT."
 - BEGIN BEFORE YOU'RE READY — he waits at a start line counting "3… 2…" forever, then just steps. "NOT READY?" → "BEGIN ANYWAY."

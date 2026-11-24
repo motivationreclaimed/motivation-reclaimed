@@ -44,3 +44,4 @@ NOTE: Publer free plan allows only ~2 auto-comments; later create_post calls wit
 040 | look_how_far | SKETCH · LOOK BACK | 2026-11-27T21:00:00Z | LOOK HOW FAR YOU'VE COME — turns round, sees the way back to DAY 1  [BEAR re-render 24 Nov]
 041 | one_day_at_a_time | SKETCH · CALENDAR | 2026-11-29T21:00:00Z | ONE DAY AT A TIME — 30-day grid overwhelms, he only ticks TODAY, grid fills
 NOTE 24 Nov: from 27 Nov one post EVERY day at 21:00; 031 (wolf) posted 23 Nov; 032-041 are bear re-renders/new.
+042 | breathe_first | SKETCH · BREATHING | PUBLISHED NOW 2026-11-24 ~01:00 UK (owner asked to replace the removed post) | BREATHE FIRST, THEN BEGIN — chaos scribbles, eyes closed, ring breathes in/out, calm

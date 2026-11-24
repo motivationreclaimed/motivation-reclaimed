@@ -209,7 +209,10 @@ def bear_front(S,cx,gy,h,expr="neutral",look=(0,0),blink=0.0):
         S.ell(ex+lx*erx*0.35,ey+ly*ery*0.4,erx*0.55,ery*0.55,BLACK,outline=False)
         S.ell(ex+lx*erx*0.35-erx*0.2,ey+ly*ery*0.4-ery*0.22,erx*0.15,ery*0.15,WHITE,outline=False)
         lid={"sad":0.42,"tired":0.55,"happy":0.0,"hopeful":0.0}.get(expr,0.08)+blink
-        if lid>0:
+        if lid>=0.9:   # eyes closed: cover the eye, draw a soft closed-eye curve
+            S.fill([(ex-erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey+ery*1.2),(ex-erx*1.2,ey+ery*1.2)])
+            S.stroke(S.circle_pts(ex,ey+ery*0.1,erx*0.9,ery*0.45,12,math.pi*0.1,math.pi*0.9),None,None,2)
+        elif lid>0:
             if expr=="sad":
                 a_,b_=(0.55,1.15) if sx>0 else (1.15,0.55)
                 S.fill([(ex-erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery+2*ery*lid*b_),(ex-erx*1.2,ey-ery+2*ery*lid*a_)])
