@@ -3,20 +3,22 @@
 Faceless motivation channel. Instagram / TikTok / YouTube Shorts, all posted through Publer via the Zapier connector.
 Business email: mr@pixevon.com. Handles: @motivationreclaimed (IG, TikTok), @motivation_reclaimed (YouTube).
 
-## THE ONLY STYLE: SKETCH + THE LONE WOLF (owner, 23 Nov 2026 — "only make videos like this")
+## THE ONLY STYLE: SKETCH + THE BEAR CUB (owner, 23–24 Nov 2026 — "only make videos like this")
 Every video, from now on, is made in the SKETCH style with `make_sketch.py` + `engine_sketch/`. The old styles
 (TOON3D, GOLD3D, STICK2D, make.py, make3d.py) are RETIRED — never use them again. Approved examples: `specs/031`–`040`.
 - **Look (copy exactly):** pure black background. Everything is drawn in scratchy, hand-drawn white lines (several jittered
   passes per line, 10 fps "line boil" — built into `Sk`). Bodies are filled solid black with a white sketched outline.
   A hand-drawn ground line. NO scenery, NO gradients, NO colour, NO glow — minimal like the owner's reference video.
-- **The character = THE LONE WOLF** (channel mascot, always the hero): black wolf with pointed ears, messy fur on top,
-  big round white eyes with black pupils, tiny nose, simple long body. Drawn only via `wolf_front(...)` (close-ups and
-  medium shots, expressions `"sad" "tired" "neutral" "hopeful" "happy"`, `look=(x,y)` eye direction, `blink`) and
-  `wolf_side(...)` (rigged side view: `walk(phase,amp)`, `run(phase)`, `STAND`, `KNEEL`, `FLOOR_SIT`, `ARMS_UP`, blend with
-  `mix(a,b,k)`, `facing=-1` to turn round, lift him with a smaller `gy` to jump). Never invent another hero.
+- **The character = THE BEAR CUB** (owner, 24 Nov 2026 — replaced the wolf, whose face "looked like the devil"; never
+  draw the wolf again). Black bear cub, round ears, round head, big friendly white eyes, white muzzle with a small
+  black nose and a small mouth, simple long body. Soft and kind — no spikes, no sharp angles, no angry brows.
+  Drawn only via `bear_front(...)` (close-ups and medium shots, expressions `"sad" "tired" "neutral" "hopeful" "happy"`,
+  `look=(x,y)` eye direction, `blink`) and `bear_side(...)` (rigged side view: `walk(phase,amp)`, `run(phase)`, `STAND`,
+  `KNEEL`, `FLOOR_SIT`, `ARMS_UP`, blend with `mix(a,b,k)`, `facing=-1` to turn round, lift him with a smaller `gy` to
+  jump). (`wolf_front`/`wolf_side` in older specs are aliases that now draw the bear.) Never invent another hero.
   Other figures are optional and rare (simple sketched outlines). If a story needs a pose that doesn't exist, change the story.
 - **Filmmaking (like the reference):** hard CUTS between WIDE (tiny wolf on a long line), MEDIUM (wolf ~520 px tall) and
-  CLOSE-UP (`wolf_front(S, W/2, 2500, 1900, expr, look)` — face fills the frame, text above his ears). Something
+  CLOSE-UP (`bear_front(S, W/2, 2500, 1900, expr, look)` — face fills the frame, text above his ears). Something
   happens every 1–2 s. Use small sketched props from `engine_sketch.sketch`: `cloud` (rain), `sun`, `moon`, `star`,
   `plant` (sprout → tree with flowers), `flower`, `stairs`, `block`, `wall`, `sign` (signpost with a word), `counter`.
 - **Text:** ONLY Amatic SC Bold (`assets/fonts/`, OFL) via `S.text(y, [lines], size)`, ALL CAPS, white, big
@@ -32,12 +34,12 @@ Every video, from now on, is made in the SKETCH style with `make_sketch.py` + `e
 
 ## CONTENT DIRECTION — UPLIFTING, NOT COMPARISON (owner, 22 Nov 2026)
 The channel now makes people feel better. Each video = one warm, true message for someone having a hard time, told as
-a tiny story of the wolf: a setback / doubt → a small turn → hope. Examples already made: a bad day is not a bad life;
+a tiny story of the bear: a setback / doubt → a small turn → hope. Examples already made: a bad day is not a bad life;
 everything happens at the right time; small steps still count; rest is not quitting; build it again; you're not behind;
 find one good thing; keep going even when nobody sees it; fall, get up, try again; look how far you've come.
 More ideas live in `ideas.md` (use top first, remove once used, add new ones in the same spirit).
 - NO "X vs Y" comparisons, lanes, races against others, "which one are you". NO money videos for now.
-- Calm, kind, hopeful. Every story ends on the wolf feeling better (smile, arms up, walking on).
+- Calm, kind, hopeful. Every story ends on the bear feeling better (smile, arms up, walking on).
 - Never repeat a message, hook card or final line already in specs/ (check the last ~20).
 - **NEVER promote or favour gambling, drinking or music (owner — absolute rule).** No betting, alcohol, pubs, music apps,
   headphones, instruments, playlists — in any frame, caption or hashtag.
@@ -48,7 +50,7 @@ More ideas live in `ideas.md` (use top first, remove once used, add new ones in 
 2. Copy the closest spec from `specs/031`–`040` to `specs/NNN_slug.py`; write a NEW little story (3–5 shots, cuts
    wide/medium/close). A spec defines `DUR`, `CAPTION`, `frame(t)` → `S.out()`.
 3. Preview once: `python3 make_sketch.py specs/NNN_slug.py --stills 1 3 5 6.8 8.8` → LOOK at
-   `previews/NNN_slug_stills.png`: text readable and not over his face/ears, wolf fully in frame, feet on the ground
+   `previews/NNN_slug_stills.png`: text readable and not over his face/ears, bear fully in frame, feet on the ground
    line / steps, nothing floating or passing through props, story readable without sound. Fix once if needed.
 4. Render: `python3 make_sketch.py specs/NNN_slug.py` → `videos/NNN_slug.mp4` (~20 s). Then the QUALITY GATE.
 5. Variety self-check every run: different message, props, shot order, hook card and ending from the last ~10.
@@ -57,7 +59,7 @@ More ideas live in `ideas.md` (use top first, remove once used, add new ones in 
 ## QUALITY GATE — no bugged video is ever posted (owner requirement)
 After rendering, run `python3 tools/qa.py videos/NNN_slug.mp4` and LOOK at every frame of `previews/NNN_slug_qa.png`.
 (In this style blackdetect warnings on WIDE shots are expected — the frame is mostly black with thin lines; only fail
-if a frame is truly empty.) Post only if: 1080×1920, 8–10 s; wolf visible and readable in every shot; no text over
+if a frame is truly empty.) Post only if: 1080×1920, 8–10 s; bear visible and readable in every shot; no text over
 his face; all text fully on screen and readable; no limb through props/walls, feet on the ground; poses change smoothly
 (no sudden wrong pose); props behave logically; content rule respected. Max 2 fix rounds; otherwise drop the concept and
 make a simpler one by copying a proven spec (031–040). One line per video in the report: "QA: passed (checked N frames)".
@@ -79,8 +81,8 @@ There is NO fixed template. Every caption must read differently from the last ~1
 - Save the caption as `CAPTION` in the spec (so future runs can check for repetition).
 
 ## Posting (Zapier → Publer)
-1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL (use the jsDelivr CDN — Publer often fails to fetch raw.githubusercontent.com, 21 Nov 2026):
-   `https://cdn.jsdelivr.net/gh/motivationreclaimed/motivation-reclaimed@main/videos/<file>.mp4`
+1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL (use the jsDelivr CDN — Publer often fails to fetch raw.githubusercontent.com, 21 Nov 2026). PIN THE COMMIT (`git rev-parse HEAD`), because `@main` is cached for hours and can serve an OLD file with the same name:
+   `https://cdn.jsdelivr.net/gh/motivationreclaimed/motivation-reclaimed@<commit-sha>/videos/<file>.mp4`
 2. Publer `upload_media` (selected_api `App232404CLIAPI`, workspace_id, upload_type `url`, `file_urls` = [CDN URL]) → media id. If the result says "not a publicly accessible media", wait ~1 minute and retry ONCE with the same CDN URL, then once with `https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`. Only if all fail, log it PENDING (the catch-up task retries).
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.

@@ -1,4 +1,4 @@
-# Ideas — SKETCH style, Lone Wolf, uplifting (use top first, delete when used, add new ones in the same spirit)
+# Ideas — SKETCH style, the Bear Cub, uplifting (use top first, delete when used, add new ones in the same spirit)
 Each = one warm true message + a tiny wolf story (setback/doubt → small turn → hope). Hook card / final card in caps.
 
 - THE STORM PASSES — wolf holds his ground in wind (leaning STAND), sketch wind lines, it calms, he stands tall. "IT'S LOUD NOW." → "IT WILL PASS."

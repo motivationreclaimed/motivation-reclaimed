@@ -187,3 +187,63 @@ def flower(S,x,gy,k=1.0,size=26):
         for i in range(5):
             a=i*2*math.pi/5; S.ell(x+math.cos(a)*r*1.3,gy-h+math.sin(a)*r*1.3,r*0.75,r*0.75,BLACK,outline=True,w=S.lw*0.6)
         S.ell(x,gy-h,r*0.6,r*0.6,WHITE,outline=False)
+
+# ======================= THE BEAR CUB (channel character since 24 Nov 2026) =======================
+def bear_front(S,cx,gy,h,expr="neutral",look=(0,0),blink=0.0):
+    """Same framing/proportions as the old wolf_front (h = feet to ear tops)."""
+    u=h/100.0; S.lw=min(9,max(2.4,u*0.42)); S.lj=min(4,max(1.0,u*0.16))
+    hipy=gy-u*34; shy=gy-u*64; hr=u*17; hcy=shy-u*15
+    for sx in (-1,1):
+        x=cx+sx*u*5.2; S.shape([(x-u*3.2,hipy),(x+u*3.2,hipy),(x+u*3.0,gy),(x-u*3.0,gy)])
+    for sx in (-1,1):
+        x=cx+sx*u*11.2; S.shape([(x-u*2.6,shy+u*2),(x+u*2.6,shy+u*2),(x+u*2.4,hipy+u*9),(x-u*2.2,hipy+u*9)])
+    S.shape([(cx-u*9.6,shy),(cx+u*9.6,shy),(cx+u*9.0,hipy+u*2),(cx-u*9.0,hipy+u*2)])
+    for sx in (-1,1):   # round ears
+        ex,ey=cx+sx*hr*0.74,hcy-hr*0.74
+        S.shape(S.circle_pts(ex,ey,hr*0.32,hr*0.32,26)); S.stroke(S.circle_pts(ex,ey,hr*0.16,hr*0.16,18),None,None,2,closed=True)
+    S.shape(S.circle_pts(cx,hcy,hr*1.02,hr*0.97,48))
+    ey=hcy-hr*0.1; lx,ly=look
+    for sx in (-1,1):
+        ex=cx+sx*hr*0.37; erx,ery=hr*0.19,hr*0.22
+        S.ell(ex,ey,erx,ery,WHITE,outline=False)
+        S.ell(ex+lx*erx*0.35,ey+ly*ery*0.4,erx*0.55,ery*0.55,BLACK,outline=False)
+        S.ell(ex+lx*erx*0.35-erx*0.2,ey+ly*ery*0.4-ery*0.22,erx*0.15,ery*0.15,WHITE,outline=False)
+        lid={"sad":0.42,"tired":0.55,"happy":0.0,"hopeful":0.0}.get(expr,0.08)+blink
+        if lid>0:
+            if expr=="sad":
+                a_,b_=(0.55,1.15) if sx>0 else (1.15,0.55)
+                S.fill([(ex-erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery+2*ery*lid*b_),(ex-erx*1.2,ey-ery+2*ery*lid*a_)])
+            else: S.fill([(ex-erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery*1.3),(ex+erx*1.2,ey-ery+2*ery*lid),(ex-erx*1.2,ey-ery+2*ery*lid)])
+        by=ey-ery*1.45
+        if expr=="sad": S.stroke([(ex-sx*erx*0.9,by-hr*0.06),(ex+sx*erx*0.8,by+hr*0.02)],None,None,2)   # worried brows (inner ends up)
+        elif expr in ("happy","hopeful"): S.stroke(S.circle_pts(ex,by+hr*0.04,erx*0.8,hr*0.05,8,math.pi*1.1,math.pi*1.9),None,None,2)
+    my=hcy+hr*0.38; S.ell(cx,my,hr*0.36,hr*0.27,WHITE,outline=False)
+    S.ell(cx,my-hr*0.09,hr*0.12,hr*0.08,BLACK,outline=False)
+    lw=max(3,int(S.lw*SS*0.75))
+    if expr in ("happy","hopeful"):
+        for sx in (-1,1): S.d.arc([S.P((cx+min(0,sx)*hr*0.15,my-hr*0.06)),S.P((cx+max(0,sx)*hr*0.15,my+hr*0.12))],20,160,fill=BLACK,width=lw)
+    elif expr=="sad": S.d.arc([S.P((cx-hr*0.11,my+hr*0.04)),S.P((cx+hr*0.11,my+hr*0.2))],200,340,fill=BLACK,width=lw)
+    else: S.d.line([S.P((cx-hr*0.08,my+hr*0.1)),S.P((cx+hr*0.08,my+hr*0.1))],fill=BLACK,width=lw)
+
+def bear_side(S,hipx,gy,h,P,facing=1,expr="neutral"):
+    u=h/560.0; J=joints(P,facing); g=ground_offset(J)
+    X=lambda p:(hipx+p[0]*u,gy+(p[1]-g)*u); w0=2.0 if h<300 else 2.6
+    def limb(a,b,wd):
+        A,B=X(a),X(b); dx,dy=B[0]-A[0],B[1]-A[1]; L=math.hypot(dx,dy) or 1; nx,ny=-dy/L*wd*u/2,dx/L*wd*u/2
+        S.shape([(A[0]+nx,A[1]+ny),(B[0]+nx,B[1]+ny),(B[0]-nx,B[1]-ny),(A[0]-nx,A[1]-ny)],w=w0,j=0.8 if h<300 else 1.4,passes=2)
+    limb(J['sh'],J['eB'],28); limb(J['eB'],J['hB'],26); limb((0,0),J['kB'],32); limb(J['kB'],J['aB'],30)
+    N=J['neck']; S.shape([X((-50*facing,0)),X((50*facing,0)),X((N[0]+44*facing,N[1])),X((N[0]-44*facing,N[1]))],w=w0,j=0.8,passes=2)
+    limb((0,0),J['kF'],32); limb(J['kF'],J['aF'],30)
+    C=X((N[0]+8*facing,N[1]-92)); r=98*u
+    ex_,ey_=C[0]-r*0.25*facing,C[1]-r*0.78
+    S.shape(S.circle_pts(ex_,ey_,r*0.3,r*0.3,20),w=w0,j=0.6,passes=2)                       # round ear
+    S.shape(S.circle_pts(C[0],C[1],r,r*0.96,32),w=w0,j=0.8,passes=2)                         # head
+    S.ell(C[0]+r*0.78*facing,C[1]+r*0.3,r*0.36,r*0.27,WHITE,outline=False)                  # white snout
+    S.ell(C[0]+r*1.06*facing,C[1]+r*0.2,r*0.1,r*0.08,BLACK,outline=False)                   # nose
+    ex,ey=C[0]+r*0.38*facing,C[1]-r*0.14
+    S.ell(ex,ey,r*0.22,r*0.26,WHITE,outline=False); S.ell(ex+r*0.07*facing,ey+(r*0.05 if expr in("sad","tired") else 0),r*0.12,r*0.14,BLACK,outline=False)
+    if expr in ("sad","tired"): S.fill([(ex-r*0.3,ey-r*0.34),(ex+r*0.3,ey-r*0.34),(ex+r*0.3,ey-r*0.02),(ex-r*0.3,ey-r*0.12)])
+    limb(J['sh'],J['eF'],28); limb(J['eF'],J['hF'],26)
+
+# the channel's hero is now the bear cub: every spec that calls wolf_* draws the bear
+wolf_front=bear_front; wolf_side=bear_side
