@@ -33,12 +33,14 @@ NNN | slug | FORMAT | scheduled_at (UTC) | concept
 030 | same_24_hours | TOON3D · SPLIT | 2026-11-28T21:00:00Z | SAME 24 HOURS — scroller vs stack of 8 focused-hour blocks, clock x4  [REMOVED BY OWNER 23 Nov — old style; slot reused]
 NOTE: Publer free plan allows only ~2 auto-comments; later create_post calls with auto_comment_* fail (partial posts may be created — a retry without it reported 'another post at this time' on accounts that already succeeded). Future runs: skip auto_comment fields.
 031 | a_bad_day | SKETCH · RAIN | 2026-11-23T21:00:00Z | A BAD DAY IS NOT A BAD LIFE — walks in rain, sad close-up, looks up, sun
-032 | the_right_time | SKETCH · PLANT | 2026-11-24T12:00:00Z | EVERYTHING HAPPENS AT THE RIGHT TIME — plants seed, days pass, tree blooms
-033 | small_steps_count | SKETCH · STAIRS | 2026-11-24T21:00:00Z | SMALL STEPS STILL COUNT — staircase, x4 climb to the top, arms up
-034 | rest_is_not_quitting | SKETCH · NIGHT | 2026-11-25T12:00:00Z | REST IS NOT QUITTING — runs, sits under moon, eyes close, sunrise, walks on
-035 | build_it_again | SKETCH · BLOCKS | 2026-11-25T21:00:00Z | BUILD IT AGAIN — tower falls, rebuilt 1/7..7/7 taller
-036 | not_behind | SKETCH · SIGNS | 2026-11-26T12:00:00Z | YOU'RE NOT BEHIND — age signposts, flowers grow where he walks, "your pace"
-037 | one_good_thing | SKETCH · SMALL THINGS | 2026-11-26T21:00:00Z | FIND ONE GOOD THING — sun, flower, star appear one by one; then another
-038 | nobody_sees_it | SKETCH · STARS | 2026-11-28T21:00:00Z | KEEP GOING ANYWAY — a star per quiet night, sky fills, arms up
-039 | try_again | SKETCH · WALL | 2026-11-30T21:00:00Z | FALL. GET UP. TRY AGAIN — jumps wall, fails twice, clears on try 3
-040 | look_how_far | SKETCH · LOOK BACK | 2026-12-01T21:00:00Z | LOOK HOW FAR YOU'VE COME — turns round, sees the way back to DAY 1
+032 | the_right_time | SKETCH · PLANT | 2026-11-24T12:00:00Z | EVERYTHING HAPPENS AT THE RIGHT TIME — plants seed, days pass, tree blooms  [BEAR re-render 24 Nov]
+033 | small_steps_count | SKETCH · STAIRS | 2026-11-24T21:00:00Z | SMALL STEPS STILL COUNT — staircase, x4 climb to the top, arms up  [BEAR re-render 24 Nov]
+034 | rest_is_not_quitting | SKETCH · NIGHT | 2026-11-25T12:00:00Z | REST IS NOT QUITTING — runs, sits under moon, eyes close, sunrise, walks on  [BEAR re-render 24 Nov]
+035 | build_it_again | SKETCH · BLOCKS | 2026-11-25T21:00:00Z | BUILD IT AGAIN — tower falls, rebuilt 1/7..7/7 taller  [BEAR re-render 24 Nov]
+036 | not_behind | SKETCH · SIGNS | 2026-11-26T12:00:00Z | YOU'RE NOT BEHIND — age signposts, flowers grow where he walks, "your pace"  [BEAR re-render 24 Nov]
+037 | one_good_thing | SKETCH · SMALL THINGS | 2026-11-26T21:00:00Z | FIND ONE GOOD THING — sun, flower, star appear one by one; then another  [BEAR re-render 24 Nov]
+038 | nobody_sees_it | SKETCH · STARS | 2026-11-28T21:00:00Z | KEEP GOING ANYWAY — a star per quiet night, sky fills, arms up  [BEAR re-render 24 Nov]
+039 | try_again | SKETCH · WALL | 2026-11-30T21:00:00Z (bear re-render; create_post was interrupted, assumed scheduled) | FALL. GET UP. TRY AGAIN — jumps wall, fails twice, clears on try 3  [BEAR re-render 24 Nov]
+040 | look_how_far | SKETCH · LOOK BACK | 2026-11-27T21:00:00Z | LOOK HOW FAR YOU'VE COME — turns round, sees the way back to DAY 1  [BEAR re-render 24 Nov]
+041 | one_day_at_a_time | SKETCH · CALENDAR | 2026-11-29T21:00:00Z | ONE DAY AT A TIME — 30-day grid overwhelms, he only ticks TODAY, grid fills
+NOTE 24 Nov: from 27 Nov one post EVERY day at 21:00; 031 (wolf) posted 23 Nov; 032-041 are bear re-renders/new.
