@@ -83,7 +83,7 @@ There is NO fixed template. Every caption must read differently from the last ~1
 ## Posting (Zapier → Publer)
 1. `git add` the spec + video, commit, `git -c push.negotiate=true push`. Public URL (use the jsDelivr CDN — Publer often fails to fetch raw.githubusercontent.com, 21 Nov 2026). PIN THE COMMIT (`git rev-parse HEAD`), because `@main` is cached for hours and can serve an OLD file with the same name:
    `https://cdn.jsdelivr.net/gh/motivationreclaimed/motivation-reclaimed@<commit-sha>/videos/<file>.mp4`
-2. Publer `upload_media` (selected_api `App232404CLIAPI`, workspace_id, upload_type `url`, `file_urls` = [CDN URL]) → media id. If the result says "not a publicly accessible media", wait ~1 minute and retry ONCE with the same CDN URL, then once with `https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`. Only if all fail, log it PENDING (the catch-up task retries).
+2. Publer `upload_media` (selected_api `App232404CLIAPI`, workspace_id, upload_type `url`, `file_urls` = [ALL of this run's CDN URLs in one call]) → one media id per file. If the result says "not a publicly accessible media", wait ~1 minute and retry ONCE with the same CDN URL, then once with `https://raw.githubusercontent.com/motivationreclaimed/motivation-reclaimed/main/videos/<file>.mp4`. Only if all fail, log it PENDING (the catch-up task retries).
 3. Publer `create_post` with `state: "scheduled"`, `scheduled_at` (ISO, UTC), `media_ids`, `text` = CAPTION.
    - Workspace: `6af6583ee39d7f4bffa1aa3e` (Motivation Reclaimed). Zapier connection: mr@pixevon.com.
    - Accounts (ALL THREE every time): `6af658d73a8f484368c1cf7e` (Instagram), `6af65b2b1fc93c847bca0e16` (TikTok), `6af65afdd185a8df145dea8a` (YouTube).
@@ -92,16 +92,16 @@ There is NO fixed template. Every caption must read differently from the last ~1
    - **Auto first comment (engagement):** in create_post also set `auto_comment_enabled: true` and `auto_comment_text: ["<one short, genuine question tied to the video that's easy to answer, e.g. 'What's the one habit you're rebuilding this month?'>"]`. Vary it every time. If create_post fails because of this option (plan limit / parameter error), immediately retry the SAME call once without the auto-comment fields (failed calls cost no Zapier tasks) and note it in posted.md so future runs skip it.
 4. Append a line to `posted.md`: `NNN | slug | FORMAT | scheduled_at | concept one-liner`. Commit + push.
 
-## Schedule (date-based — check today's date first)
-Zapier trial started 13 Nov 2026 and ends ~27 Nov 2026, then the account is on Zapier FREE (100 tasks/month).
-Every successful Zapier tool call costs 2 tasks, and each video needs 2 calls (upload_media + create_post) = 4 tasks.
-
-- **Until 26 Nov 2026 (trial):** 2 posts/day at 12:00 and 21:00 UK (UK lunch + UK evening/US afternoon), all three platforms. Each run schedules 7 videos. (Posts already scheduled before 15 Nov keep their old 13:00/20:00 times — just continue after the last one.)
-- **From 27 Nov 2026 (free plan):** 5 posts/week, one per day at 21:00 UK, all three platforms.
-  - Monday run: 3 videos → Mon, Tue, Wed 21:00.  Thursday run: 2 videos → Thu, Sat 21:00.
-  - That is ~22 videos ≈ 88 tasks/month + 4 tasks for the monthly analytics check ≈ 92, under 100.
-  - The owner can raise this later by upgrading Zapier — only change it if CLAUDE.md is updated.
-- Never schedule into the past or before an already-scheduled post (check posted.md). Publer free allows max 10 pending posts per account.
+## Schedule (date-based — check today's date first) — POST EVERY DAY, NEVER SKIP A DAY (owner, 24 Nov 2026)
+Zapier trial ends ~27 Nov 2026, then Zapier FREE (100 tasks/month; every successful call = 2 tasks).
+- **Until 26 Nov 2026 (trial):** 2 posts/day at 12:00 and 21:00 UK.
+- **From 27 Nov 2026:** ONE post EVERY day at 21:00 UK (Mon–Sun, no gaps), all three platforms.
+  - Monday run: 4 videos → Mon, Tue, Wed, Thu 21:00.  Thursday run: 3 videos → Fri, Sat, Sun 21:00.
+  - Always fill the next empty days after the last scheduled post (posted.md); never leave a day empty, never double a day.
+- **Budget trick (keeps daily posting on the free plan):** upload ALL of a run's videos in ONE `upload_media` call
+  (`file_urls` = list of every CDN URL; it returns one media id per file, in order), then one `create_post` per video.
+  ≈ 9 uploads + 30 posts = 39 calls ≈ 78 tasks/month + 4 for analytics ≈ 82 < 100.
+- Never schedule into the past. Publer free allows max 10 pending posts per account.
 
 ## Compilations — **PAUSED by owner: do NOT make, schedule or post any compilation (tall or wide) until this line says ACTIVE.** Owner found the format boring; it is being redesigned. Ignore the rules below until then. `compile.py`
 Track progress in `compilations.md` (create if missing): lines `TALL | up to NNN | date` and `WIDE | up to NNN | date`.
@@ -126,7 +126,7 @@ Then write `insights.md` (overwrite): followers and views trend, top 5 and botto
 
 ## Zapier budget rules (important on the free plan)
 - Do NOT call inspect / discover / list / read actions on Zapier during normal runs — every successful call burns 2 tasks. All IDs needed are in this file.
-- Only call `upload_media` and `create_post`. Use inspect only if one of those calls fails with a parameter error.
+- Only call `upload_media` (ONE batched call per run) and `create_post` (one per video). Use inspect only if one of those calls fails with a parameter error.
 - If Zapier reports the task limit is reached: stop posting, keep the rendered videos committed in the repo, log them in posted.md as `NOT SCHEDULED (zapier limit)`, and say so clearly in the final report so the owner can post them manually or upgrade.
 
 ## If Zapier / Publer is unavailable (connector down, outage, 5xx errors)
