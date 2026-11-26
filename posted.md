@@ -45,3 +45,7 @@ NOTE: Publer free plan allows only ~2 auto-comments; later create_post calls wit
 041 | one_day_at_a_time | SKETCH · CALENDAR | 2026-11-29T21:00:00Z | ONE DAY AT A TIME — 30-day grid overwhelms, he only ticks TODAY, grid fills
 NOTE 24 Nov: from 27 Nov one post EVERY day at 21:00; 031 (wolf) posted 23 Nov; 032-041 are bear re-renders/new.
 042 | breathe_first | SKETCH · BREATHING | PUBLISHED NOW 2026-11-24 ~01:00 UK (owner asked to replace the removed post) | BREATHE FIRST, THEN BEGIN — chaos scribbles, eyes closed, ring breathes in/out, calm
+043 | the_storm_passes | SKETCH · WIND | 2026-12-01T21:00:00Z | THE STORM PASSES — bear leans into the wind, shuts eyes, cloud drifts off, sun
+044 | slow_is_still_moving | SKETCH · FOOTPRINTS | 2026-12-02T21:00:00Z | SLOW IS STILL MOVING — walks beside a snail, footprints and step count, walks on  SERVICE
+045 | small_wins | SKETCH · FLAGS | 2026-12-03T21:00:00Z | SMALL WINS ARE STILL WINS — got up, water, outside; three flags and a jump
+NOTE 26 Nov: batch upload_media with 3 file_urls uploaded only the first (others: "You cannot mix photos, videos, and GIFs within the same post"); 044 and 045 were uploaded one per call. Upload ONE video per upload_media call unless the owner finds a batch fix.
