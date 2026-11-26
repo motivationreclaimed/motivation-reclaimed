@@ -1,9 +1,6 @@
 # Ideas — SKETCH style, the Bear Cub, uplifting (use top first, delete when used, add new ones in the same spirit)
 Each = one warm true message + a tiny wolf story (setback/doubt → small turn → hope). Hook card / final card in caps.
 
-- THE STORM PASSES — wolf holds his ground in wind (leaning STAND), sketch wind lines, it calms, he stands tall. "IT'S LOUD NOW." → "IT WILL PASS."
-- SLOW IS STILL MOVING — wolf walks slowly past a sign "SLOW"; snail-paced counter of steps; he keeps walking; "SLOW" → "IS STILL MOVING."
-- BE PROUD OF SMALL WINS — tiny star appears for each little thing (got up, drank water, went outside). "SMALL WINS" → "ARE STILL WINS."
 - YOU ARE ALLOWED TO START OVER — he erases a messy scribble wall, draws a clean line, walks on. "MESSED UP?" → "START OVER. IT'S ALLOWED."
 - IT'S OKAY TO ASK FOR HELP — wolf can't lift a big block alone, a second sketched figure helps; "TOO HEAVY?" → "ASK FOR HELP."
 - ONE DAY AT A TIME — calendar of 30 squares, he only looks at today's square, ticks it. "30 DAYS?" → "JUST TODAY."
